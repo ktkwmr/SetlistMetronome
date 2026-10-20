@@ -42,20 +42,20 @@ export default {
 
 <h2 id="quick">Start in three steps</h2>
 <ol>
-  <li><b>Add a song.</b> Tap “+ Add song” and type its title.</li>
+  <li><b>Add a song.</b> Tap “+ Add song” and type the song title in the box at the top.</li>
   <li><b>Set it up:</b> the tempo (BPM), the time signature, the rhythm, and the sound.</li>
   <li><b>Tap Start.</b> Add the next song the same way. Each song keeps its own settings, and everything is saved automatically.</li>
 </ol>
 
 <h2 id="screen">The screen at a glance</h2>
 <figure class="shot">
-  ${img("en", "overview", "Setlist Metronome on a computer: a song list of five songs on the left, and the metronome for the selected song on the right with 120 BPM, four beat circles, the Start button, and the settings below. Numbers 1 to 12 mark the controls.")}
+  ${img("en", "overview", "Setlist Metronome on a computer: a setlist of five songs on the left, and the metronome for the selected song on the right with 120 BPM, four beat circles, the Start button, and the settings below. Numbers 1 to 12 mark the controls.")}
   <figcaption>The numbers match the list below. Tap the image to enlarge it.</figcaption>
 </figure>
 <ol>
-  <li><b>Song list</b> – Your songs in order, with the tempo, time signature, rhythm, and sound of each. Tap a song to switch to it.</li>
+  <li><b>Setlist</b> – Your songs in the order you play them, with the tempo, time signature, rhythm, and sound of each. Tap a song to switch to it.</li>
   <li><b>List buttons</b> – Add a song after the selected one, duplicate it, move it up or down, or delete it (tap Delete twice to confirm).</li>
-  <li><b>Title</b> – The number shows where the song is in the list. Tap the title to rename it.</li>
+  <li><b>Song title</b> – The number shows where the song is in the setlist. Type the song title here. A new song starts with an empty title, and the box shows “Enter the song title”.</li>
   <li><b>← Prev / Next → / + Add song</b> – Move through the list, or add a song, without leaving the metronome.</li>
   <li><b>Tempo</b> – The BPM, with −5, −1, +1, and +5 buttons. Under it: the note that gets the beat and the tempo marking (such as Allegro).</li>
   <li><b>Beat circles</b> – One circle per beat. They light up as the metronome plays. Tap one to change its accent.</li>
@@ -113,14 +113,14 @@ export default {
 
 <h2 id="phone">On a phone</h2>
 <figure class="shot phone">
-  ${img("en", "phone", "Setlist Metronome on a phone: the metronome for the selected song is at the top, with the song title, the BPM, the beat circles, and the Start button.", { half: true })}
-  <figcaption>On a phone, the metronome comes first and the song list is below it.</figcaption>
+  ${img("en", "phone", "Setlist Metronome on a phone: the metronome for the selected song is at the top, with the song title box, the BPM, the beat circles, and the Start button.", { half: true })}
+  <figcaption>On a phone, the metronome comes first and the setlist is below it. The song title box has a row of its own, with ← Prev, Next →, and + Add song on the row below.</figcaption>
 </figure>
 <p>While the metronome plays, the app asks the phone to keep the screen on. On an iPhone, turn off silent mode if you hear nothing.</p>
 
 <h2 id="offline">Saving, installing, and offline use</h2>
 <ul>
-  <li>Your song list is saved in this browser on this device. It is not sent anywhere and is not shared between devices or browsers. Clearing this site's data in the browser deletes it.</li>
+  <li>Your setlist is saved in this browser on this device. It is not sent anywhere and is not shared between devices or browsers. Clearing this site's data in the browser deletes it.</li>
   <li>To use it like an app, add it to your home screen: on an iPhone, Share → Add to Home Screen; on Android or a computer, use “Install app” in the browser menu.</li>
   <li>After you have opened it once, it also works offline.</li>
 </ul>
@@ -148,20 +148,20 @@ export default {
 
 <h2 id="quick">3 ステップではじめる</h2>
 <ol>
-  <li><b>曲を追加する。</b>「＋ 曲の追加」を押して、タイトルを入力します。</li>
+  <li><b>曲を追加する。</b>「＋ 曲の追加」を押して、上の欄に曲名を入力します。</li>
   <li><b>設定する：</b>テンポ（BPM）・拍子・ビート・音色を決めます。</li>
   <li><b>スタートを押す。</b>次の曲も同じように追加します。設定は曲ごとに自動で保存されます。</li>
 </ol>
 
 <h2 id="screen">画面の見方</h2>
 <figure class="shot">
-  ${img("ja", "overview", "パソコンで開いた Setlist Metronome。左に 5 曲の曲リスト、右に選択中の曲のメトロノーム（120 BPM、4 つの拍の丸、スタートボタン、その下に設定）。操作部分に 1〜12 の番号が付いている。")}
+  ${img("ja", "overview", "パソコンで開いた Setlist Metronome。左に 5 曲のセットリスト、右に選択中の曲のメトロノーム（120 BPM、4 つの拍の丸、スタートボタン、その下に設定）。操作部分に 1〜12 の番号が付いている。")}
   <figcaption>番号は下の一覧と対応しています。画像を押すと拡大します。</figcaption>
 </figure>
 <ol>
-  <li><b>曲リスト</b> – 曲の一覧です。各曲のテンポ・拍子・ビート・音色も表示します。曲を押すと、その設定に切り替わります。</li>
+  <li><b>セットリスト</b> – 演奏する順の曲の一覧です。各曲のテンポ・拍子・ビート・音色も表示します。曲を押すと、その設定に切り替わります。</li>
   <li><b>リストのボタン</b> – 選択中の曲の後ろに曲を追加、複製、上下の移動、削除（2 回押して確定）ができます。</li>
-  <li><b>タイトル</b> – 番号はリストの何曲目かを示します。タイトルを押すと名前を変えられます。</li>
+  <li><b>曲名</b> – 番号はセットリストの何曲目かを示します。ここに曲名を入力します。追加したばかりの曲は空欄で、「曲名を入力」と表示されます。</li>
   <li><b>← 前／次 →／＋ 曲の追加</b> – メトロノームの画面のまま、曲を移ったり追加したりできます。</li>
   <li><b>テンポ</b> – BPM と、−5・−1・+1・+5 のボタン。下に拍の音符とテンポ記号（Allegro など）が出ます。</li>
   <li><b>拍の丸</b> – 1 拍ごとの丸です。再生中は鳴っている拍が光ります。押すとアクセントが変わります。</li>
@@ -219,14 +219,14 @@ export default {
 
 <h2 id="phone">スマホで使う</h2>
 <figure class="shot phone">
-  ${img("ja", "phone", "スマホで開いた Setlist Metronome。上に選択中の曲のメトロノーム（タイトル、BPM、拍の丸、スタートボタン）がある。", { half: true })}
-  <figcaption>スマホでは、メトロノームが上、曲リストがその下に表示されます。</figcaption>
+  ${img("ja", "phone", "スマホで開いた Setlist Metronome。上に選択中の曲のメトロノーム（曲名の欄、BPM、拍の丸、スタートボタン）がある。", { half: true })}
+  <figcaption>スマホでは、メトロノームが上、セットリストがその下に表示されます。曲名の欄は 1 行を使い、「← 前」「次 →」「＋ 曲の追加」はその下の行にあります。</figcaption>
 </figure>
 <p>再生中は、画面が消えないようにスマホに頼みます。iPhone で音が出ないときは、消音モードを解除してください。</p>
 
 <h2 id="offline">保存・インストール・オフライン</h2>
 <ul>
-  <li>曲リストは、この端末のこのブラウザに保存されます。どこにも送られず、別の端末やブラウザとは共有されません。ブラウザでこのサイトのデータを削除すると消えます。</li>
+  <li>セットリストは、この端末のこのブラウザに保存されます。どこにも送られず、別の端末やブラウザとは共有されません。ブラウザでこのサイトのデータを削除すると消えます。</li>
   <li>アプリのように使いたいときは、ホーム画面に追加します。iPhone は「共有 → ホーム画面に追加」、Android やパソコンはブラウザのメニューの「アプリをインストール」です。</li>
   <li>一度開いたあとは、オフラインでも使えます。</li>
 </ul>

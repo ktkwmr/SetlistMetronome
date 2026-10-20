@@ -11,15 +11,15 @@ const EN = [
   },
   {
     q: "What does each song remember?",
-    a: "The title, tempo (BPM), time signature, rhythm, swing, sound, the accent of each beat, and the two volume settings.",
+    a: "The song title, tempo (BPM), time signature, rhythm, swing, sound, the accent of each beat, and the two volume settings.",
   },
   {
-    q: "Can I use my song list on another device?",
-    a: "Not at the moment. The list is saved in the browser where you made it, and is not shared between devices or browsers.",
+    q: "Can I use my setlist on another device?",
+    a: "Not at the moment. The setlist is saved in the browser where you made it, and is not shared between devices or browsers.",
   },
   {
-    q: "My song list disappeared.",
-    a: "The list is kept in the browser's site data. It is lost if the site data is cleared, in a private window, or, on some browsers, if the site has not been opened for a long time. Adding the app to your home screen and opening it from there makes this less likely.",
+    q: "My setlist disappeared.",
+    a: "The setlist is kept in the browser's site data. It is lost if the site data is cleared, in a private window, or, on some browsers, if the site has not been opened for a long time. Adding the app to your home screen and opening it from there makes this less likely.",
   },
   {
     q: "What does BPM count in 6/8?",
@@ -62,15 +62,15 @@ const JA = [
   },
   {
     q: "曲ごとに何が保存されますか？",
-    a: "タイトル・テンポ（BPM）・拍子・ビート・ハネ具合・音色・各拍のアクセント・2 つの音量です。",
+    a: "曲名・テンポ（BPM）・拍子・ビート・ハネ具合・音色・各拍のアクセント・2 つの音量です。",
   },
   {
-    q: "曲リストを別の端末で使えますか？",
-    a: "現在はできません。曲リストは作ったブラウザに保存され、端末やブラウザの間では共有されません。",
+    q: "セットリストを別の端末で使えますか？",
+    a: "現在はできません。セットリストは作ったブラウザに保存され、端末やブラウザの間では共有されません。",
   },
   {
-    q: "曲リストが消えてしまいました。",
-    a: "曲リストはブラウザのサイトデータに保存されています。サイトデータを削除したとき、プライベートモードで開いたとき、ブラウザによっては長い間サイトを開かなかったときに消えることがあります。ホーム画面に追加して、そこから開くと消えにくくなります。",
+    q: "セットリストが消えてしまいました。",
+    a: "セットリストはブラウザのサイトデータに保存されています。サイトデータを削除したとき、プライベートモードで開いたとき、ブラウザによっては長い間サイトを開かなかったときに消えることがあります。ホーム画面に追加して、そこから開くと消えにくくなります。",
   },
   {
     q: "6/8 拍子のとき、BPM は何を数えますか？",

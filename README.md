@@ -8,7 +8,7 @@ A metronome that remembers each song. Save the tempo (BPM), time signature, rhyt
 
 ## Features / 機能
 
-- **Song list**: add, rename, duplicate, reorder, and delete songs; each keeps its own settings. Prev / Next move through the list while playing
+- **Setlist**: add, rename, duplicate, reorder, and delete songs; each keeps its own settings. Prev / Next move through the list while playing
   曲の追加・名前の変更・複製・並べ替え・削除。曲ごとに設定を保持し、「前」「次」で再生しながら移動
 - **Tempo**: 20–300 BPM with ±1 / ±5 buttons, a slider, direct input, and tap tempo. Shows the tempo marking (Largo … Presto)
   20〜300 BPM。±1・±5 のボタン、スライダー、直接入力、タップテンポ。テンポ記号も表示
@@ -26,11 +26,11 @@ A metronome that remembers each song. Save the tempo (BPM), time signature, rhyt
 ## Privacy / プライバシー
 
 - The sound is made only in your browser, and your songs are saved only in your browser. Nothing you enter is sent to a server. The app has no accounts, cookies, ads, or third-party libraries.
-- Your song list (titles, tempo, time signature, rhythm, sound, accents, and volume) and, for offline use, the app itself are saved in your browser's storage. Clear this site's data to remove them.
+- Your setlist (song titles, tempo, time signature, rhythm, sound, accents, and volume) and, for offline use, the app itself are saved in your browser's storage. Clear this site's data to remove them.
 - The site is hosted on Cloudflare, which keeps standard access logs (IP address, time, requested page) for operation and security. Page views are counted with Cloudflare Web Analytics, which uses no cookies.
 
-- 音はブラウザ内で作り、曲リストもブラウザ内だけに保存します。入力した内容はサーバーに送信されません。アカウント登録・Cookie・広告・外部ライブラリはありません。
-- 曲リスト（タイトル・テンポ・拍子・ビート・音色・アクセント・音量）と、オフラインで使うためのアプリ本体をブラウザ内に保存します。サイトデータを削除すると消えます。
+- 音はブラウザ内で作り、セットリストもブラウザ内だけに保存します。入力した内容はサーバーに送信されません。アカウント登録・Cookie・広告・外部ライブラリはありません。
+- セットリスト（曲名・テンポ・拍子・ビート・音色・アクセント・音量）と、オフラインで使うためのアプリ本体をブラウザ内に保存します。サイトデータを削除すると消えます。
 - サイトは Cloudflare で配信しており、運用・セキュリティのために標準的なアクセスログ（IP アドレス、日時、アクセスしたページ）が記録されます。閲覧数は Cookie を使わない Cloudflare Web Analytics で集計しています。
 
 The same notice is shown in the app under ⚙ → **Privacy**. The full privacy policy is at `/setlistmetronome/privacy/` (Japanese: `/setlistmetronome/ja/privacy/`), and the operator information is at `/setlistmetronome/about/`.
