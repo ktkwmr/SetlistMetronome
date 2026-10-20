@@ -105,7 +105,7 @@
     .label .val { font-family: var(--mono); color: var(--muted); font-weight: 700; }
     .hint { font-size: 12px; color: var(--subtle); margin: 0; }
     .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-    .chip { appearance: none; height: var(--ctl-h); padding: 0 12px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--paper); color: var(--ink); font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: background-color .12s, border-color .12s, color .12s; touch-action: manipulation; }
+    .chip { appearance: none; height: var(--ctl-h); padding: 0 12px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--paper); color: var(--ink); font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; touch-action: manipulation; }
     .chip.mono { font-family: var(--mono); min-width: 42px; padding: 0 8px; }
     .chip.sq { width: var(--ctl-h); padding: 0; }
     .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
@@ -126,13 +126,13 @@
     /* The number sits outside the card so it stays in place when songs are reordered */
     .songs li { display: flex; align-items: center; gap: 8px; }
     .songs .no { flex: none; font-family: var(--mono); font-size: 12px; color: var(--subtle); min-width: 2ch; text-align: right; font-variant-numeric: tabular-nums; }
-    .song { appearance: none; flex: 1; min-width: 0; text-align: left; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--paper); color: var(--ink); padding: 8px 12px; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr); transition: background-color .12s, border-color .12s; }
+    .song { appearance: none; flex: 1; min-width: 0; text-align: left; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--paper); color: var(--ink); padding: 8px 12px; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr); }
     .song .nm { font-weight: 700; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-height: 1.6em; }
     .song .mt { font-family: var(--mono); font-size: 11px; color: var(--subtle); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .song[aria-current="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
     .song[aria-current="true"] .mt { color: var(--line-strong); }
     @media (hover: hover) { .song:hover { border-color: var(--ink); } .song:not([aria-current="true"]):hover { background: var(--hover-fill); } }
-    .list-actions { display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--line); padding-top: 14px; }
+    .list-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; border-top: 1px solid var(--line); padding-top: 14px; }
     .list-actions .grow { flex: 1 1 100%; }
     .count { font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--subtle); padding-right: 10px; }
 
@@ -199,6 +199,14 @@
     .primary { appearance: none; height: var(--ctl-h); padding: 0 16px; border: 1px solid transparent; border-radius: var(--radius); color: var(--paper); background: var(--ink); font-weight: 600; cursor: pointer; }
     .primary:active { background: var(--press); }
     @media (hover: hover) { .primary:hover { background: var(--press-hover); } }
+
+    /* Tap feedback for one-shot buttons: shrink and darken briefly, like a mobile app.
+       .is-pressed is held for a moment by JS so even a quick tap shows it. */
+    .chip, .play, .primary, #settingsBtn, .song { transition: background-color .12s, border-color .12s, color .12s, transform .1s ease-out; }
+    .chip.is-pressed:not(:disabled), .song.is-pressed, #settingsBtn.is-pressed { background: var(--line); transform: scale(.94); }
+    .song.is-pressed { transform: scale(.98); }
+    .song[aria-current="true"].is-pressed, .play.is-pressed, .primary.is-pressed { background: var(--press); transform: scale(.97); }
+    @media (prefers-reduced-motion: reduce) { .is-pressed { transform: none !important; } }
     dialog.msg { width: min(420px, calc(100vw - 32px)); border: 1px solid var(--ink); border-radius: 12px; padding: 24px 24px 20px; box-shadow: var(--shadow); background: var(--paper); color: var(--ink); font-family: var(--sans); }
     dialog.msg:focus { outline: none; }
     dialog.msg::backdrop { background: rgba(0, 0, 0, 0.55); }
@@ -393,7 +401,6 @@
           "up": "Move the song up",
           "down": "Move the song down",
           "del": "Delete",
-          "del.confirm": "Really delete?",
           "name": "Song title",
           "name.ph": "Enter the song title",
           "copyOf": "{name} (copy)",
@@ -470,7 +477,6 @@
           "up": "選択中の曲を上へ",
           "down": "選択中の曲を下へ",
           "del": "削除",
-          "del.confirm": "本当に削除？",
           "name": "曲名",
           "name.ph": "曲名を入力",
           "copyOf": "{name} のコピー",
@@ -792,7 +798,6 @@
         $("count").textContent = n === 1 ? t("count.one") : t("count", { n: n });
         $("upBtn").disabled = idx <= 0; $("downBtn").disabled = idx >= n - 1;
         $("prevBtn").disabled = idx <= 0; $("nextBtn").disabled = idx >= n - 1;
-        resetDel();
       }
       function renderHead() {
         const p = cur();
@@ -919,15 +924,7 @@
       }
       $("upBtn").onclick = () => shift(-1);
       $("downBtn").onclick = () => shift(1);
-      // Delete asks once more on the same button (no pop-up)
-      let delArmed = false, delTimer = null;
-      function resetDel() { delArmed = false; clearTimeout(delTimer); const b = $("delBtn"); b.textContent = t("del"); b.setAttribute("aria-pressed", "false"); }
       $("delBtn").onclick = () => {
-        const b = $("delBtn");
-        if (!delArmed) {
-          delArmed = true; b.textContent = t("del.confirm"); b.setAttribute("aria-pressed", "true");
-          delTimer = setTimeout(resetDel, 3000); return;
-        }
         const i = store.presets.findIndex((x) => x.id === store.current);
         store.presets.splice(i, 1);
         if (!store.presets.length) store.presets.push(newPreset({}));
@@ -936,6 +933,20 @@
       };
       $("prevBtn").onclick = () => move(-1);
       $("nextBtn").onclick = () => move(1);
+
+      // Tap feedback: buttons that don't stay on (no aria-pressed) get .is-pressed for at least 150 ms
+      const PRESSABLE = ".chip:not([aria-pressed]), .play, .primary, #settingsBtn, .song";
+      document.addEventListener("pointerdown", function (e) {
+        const el = e.target.closest && e.target.closest(PRESSABLE);
+        if (!el || el.disabled || e.button > 0) return;
+        const t0 = performance.now();
+        el.classList.add("is-pressed");
+        const release = function () {
+          document.removeEventListener("pointerup", release); document.removeEventListener("pointercancel", release);
+          setTimeout(() => el.classList.remove("is-pressed"), Math.max(0, 150 - (performance.now() - t0)));
+        };
+        document.addEventListener("pointerup", release); document.addEventListener("pointercancel", release);
+      });
 
       // Keyboard shortcuts (not while typing, or while a menu or dialog is open)
       document.addEventListener("keydown", function (e) {
