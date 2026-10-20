@@ -10,7 +10,7 @@
 | アプリ名 | Setlist Metronome |
 | スラッグ | `setlistmetronome` |
 | ドメイン | `ktkwmr.com`（3 つ目のアプリ。§0 の **A**: 別 Worker + Route `ktkwmr.com/setlistmetronome*`） |
-| リポジトリ | `ktkwmr/SetlistMetronome`（未作成） |
+| リポジトリ | `ktkwmr/SetlistMetronome`（公開） |
 | 運営者・問い合わせ | ktkwmr / GitHub Issues |
 | 言語 | en（既定）+ ja（`/ja/`） |
 | Web Analytics token | ChordTransposer・GuitarChordFinder と同じ |
@@ -20,8 +20,8 @@
 | # | 項目 | 状態 | メモ |
 |---|---|---|---|
 | 1-1〜1-3, 1-5, 1-6 | アカウント類・開発環境 | ✅ | ChordTransposer で実施済み |
-| 1-4 | Claude の GitHub App にリポジトリを許可 | 👤 待ち | 「All repositories」なら不要 |
-| 1-8 | Cloudflare の GitHub App にリポジトリを許可 | 👤 待ち | 下の作業リスト |
+| 1-4 | Claude の GitHub App にリポジトリを許可 | 👤 待ち | 2026-10-20 時点ではローカルの gh CLI で作業。クラウドのセッションで使うときに必要 |
+| 1-8 | Cloudflare の GitHub App にリポジトリを許可 | ✅ | 2026-10-20。Cloudflare の Import a repository に表示され、接続できた |
 
 ## 2. 土台とホスティング
 
@@ -37,10 +37,10 @@
 | 2-8 | LICENSE | ✅ | |
 | 2-9 | CLAUDE.md | ✅ | |
 | 2-10 | バージョン番号なし・キャッシュ名固定 | ✅ | |
-| 2-11 | Cloudflare に接続・ルート設定 | 👤 待ち | 下の作業リスト |
+| 2-11 | Cloudflare に接続・ルート設定 | ✅ | 2026-10-20 に接続して初回デプロイ（手動）。本番で全ページ 200、不明 URL は 404、CSP ヘッダーあり、ChordTransposer・GuitarChordFinder とドメイン直下に影響なしを確認 |
 | 2-12 | キャッシュ | ✅ | |
-| 2-13 | 自動デプロイの確認 | 👤 待ち | 接続後に確認 |
-| 2-14 | 同じドメインの 2 つ目以降のアプリ | ⚠️ | 設定は済み。ChordTransposer の `robots.txt` に Sitemap 行を足す PR が必要（下の作業リスト）。§0 の A「3 つ以上ならドメイン直下を別リポジトリに」は未判断 |
+| 2-13 | 自動デプロイの確認 | ⚠️ | 初回は手動デプロイ。この表を更新した PR のマージ後、`main` のコミットに「Workers Builds: setlistmetronome」のチェックが付くかで確認する |
+| 2-14 | 同じドメインの 2 つ目以降のアプリ | ⚠️ | 設定は済み。ChordTransposer の `robots.txt` に Sitemap 行を足す PR を出した（マージ待ち）。§0 の A「3 つ以上ならドメイン直下を別リポジトリに」は未判断 |
 
 ## 3. PWA
 
@@ -75,7 +75,7 @@
 | 5-3 | OGP | ✅ | |
 | 5-4 | og-image.png | ✅ | `scripts/og-image.html` |
 | 5-5 | JSON-LD | ✅ | |
-| 5-6 | robots.txt / sitemap.xml | ⚠️ | sitemap は `/setlistmetronome/sitemap.xml` に生成。ChordTransposer の `robots.txt` への追記は未 |
+| 5-6 | robots.txt / sitemap.xml | ⚠️ | sitemap は `/setlistmetronome/sitemap.xml` に生成。ChordTransposer の `robots.txt` に Sitemap 行を足す PR を出した（マージ待ち） |
 | 5-7 | `<h1>` | ✅ | ツールバーのアプリ名 |
 | 5-8 | 画面に見える説明文 | ✅ | 冒頭の説明（無料・登録不要・オフライン） |
 | 5-9 | リダイレクト | ✅ | |
@@ -148,30 +148,30 @@
 |---|---|---|---|
 | 12-1 | Build generated pages | ✅ | |
 | 12-2 | Update third-party licenses | ✅ | |
-| 12-3 | ブランチ → PR → squash | — | リポジトリ作成後 |
+| 12-3 | ブランチ → PR → squash | ✅ | 初回コミットだけ main に直接 push |
 | 12-4 | ローカル確認 | ✅ | |
 | 12-5 | 生成ファイルを編集しない | ✅ | README・CLAUDE.md |
-| 12-6, 12-7 | wrangler dev の ETag・長いパス | — | 今回は別の原因でつまずいた（ベースラインへの追記案あり） |
+| 12-6, 12-7 | wrangler dev の ETag・長いパス | — | 今回は別の原因でつまずいた: ほかのアプリの `wrangler dev` がポート 8787 で動いたままで、全ページが 404 に見えた。`--port` で別のポートにして解消（ベースラインへの追記案あり） |
 
 ## 13〜15
 
-13・14 はすべて 👤 待ち（下の表）。15（AdSense）は未着手。
+| # | 項目 | 状態 | メモ |
+|---|---|---|---|
+| 13-1 | 本番デプロイ | ✅ | 2026-10-20 |
+| 13-4 | GitHub の About | ✅ | Description・Website・Topics を gh CLI で設定 |
+
+13・14 のその他は 👤 待ち（下の表）。15（AdSense）は未着手。
 
 ## 人間の作業（未完了）
 
 | # | 内容 | 手順 | 終わったかの確かめ方 |
 |---|---|---|---|
-| 1 | GitHub にリポジトリを作る | https://github.com/new → Owner `ktkwmr`、Repository name `SetlistMetronome`、Public、README などは追加しない | 空のリポジトリができる |
-| 2 | Claude と Cloudflare の GitHub App にアクセスを許可（1-4・1-8） | https://github.com/settings/installations → Claude → Configure / Cloudflare Workers and Pages → Configure → Repository access に `SetlistMetronome` を追加 | 一覧にリポジトリが出る |
-| 3 | 初回の push | Claude に「push して」と伝える（ローカルのリポジトリから） | GitHub にファイルが並ぶ |
-| 4 | Cloudflare に接続（2-11） | https://dash.cloudflare.com → Workers & Pages → Create → Import a repository → `ktkwmr/SetlistMetronome`。本番ブランチ `main`。ルートは `wrangler.jsonc` から自動で登録される | Deployments に成功が出る。https://ktkwmr.com/setlistmetronome/ が開く |
-| 5 | 自動デプロイの確認（2-13） | 何か 1 つ `main` に push する | GitHub のコミットに「Workers Builds: setlistmetronome」のチェックが付き、成功する |
-| 6 | ChordTransposer の robots.txt に Sitemap 行（5-6） | Claude に依頼（ChordTransposer への PR）。追記する行: `Sitemap: https://ktkwmr.com/setlistmetronome/sitemap.xml` | https://ktkwmr.com/robots.txt にその行がある |
-| 7 | 日本語の検索用タイトル・説明を確認（4-4） | `scripts/build-ja.mjs` 冒頭の `TITLE`・`DESCRIPTION` を読む | 直すところがない／Claude に修正を依頼 |
-| 8 | 記事の内容確認（10-7） | `docs/article-review.md` の観点で、PR のプレビュー URL か本番で読む | 直すところがない／Claude に修正を依頼 |
-| 9 | 本番の動作確認（13-2・13-3） | 日英・スマホ・PC で開く。iPhone で音が出るか、ホーム画面に追加して起動、機内モードで開けるか | すべて動く |
-| 10 | 解析の送信確認（11-4） | 本番で DevTools → Network を `cloudflareinsights` で絞る | `beacon.min.js` が 200、`rum` が 204 |
-| 11 | GitHub の About（13-4） | PC で https://github.com/ktkwmr/SetlistMetronome → About の歯車。Description: `A metronome that saves the tempo, time signature, rhythm, and sound for each song in your setlist. 曲ごとにテンポ・拍子・ビートを保存できるメトロノーム`、Website: `https://ktkwmr.com/setlistmetronome/`、Topics: `metronome bpm setlist music-practice pwa web-audio` | About に表示される |
-| 12 | Search Console（14-2） | サイトマップ `https://ktkwmr.com/setlistmetronome/sitemap.xml` を送信、URL 検査で `/setlistmetronome/` と `/setlistmetronome/ja/` の登録をリクエスト | 送信済みサイトマップに表示（検出 URL 16） |
-| 13 | ポリシー内の外部リンク（7-7） | プライバシーポリシーの Cloudflare へのリンクを開く | ページが開く |
-| 14 | ドメイン直下の分離を判断（§0 の A） | アプリが 3 つになったので、ドメイン直下（トップ・robots・ads.txt）を小さなリポジトリに分けるか決める | 方針が決まる |
+| 1 | 日本語の検索用タイトル・説明を確認（4-4） | `scripts/build-ja.mjs` 冒頭の `TITLE`・`DESCRIPTION` を読む | 直すところがない／Claude に修正を依頼 |
+| 2 | 記事の内容確認（10-7） | `docs/article-review.md` の観点で、PR のプレビュー URL か本番で読む | 直すところがない／Claude に修正を依頼 |
+| 3 | 本番の動作確認（13-2・13-3） | 日英・スマホ・PC で開く。iPhone で音が出るか、ホーム画面に追加して起動、機内モードで開けるか | すべて動く |
+| 4 | 解析の送信確認（11-4） | 本番で DevTools → Network を `cloudflareinsights` で絞る | `beacon.min.js` が 200、`rum` が 204 |
+| 5 | Search Console（14-2） | サイトマップ `https://ktkwmr.com/setlistmetronome/sitemap.xml` を送信、URL 検査で `/setlistmetronome/` と `/setlistmetronome/ja/` の登録をリクエスト | 送信済みサイトマップに表示（検出 URL 16） |
+| 6 | ポリシー内の外部リンク（7-7） | プライバシーポリシーの Cloudflare へのリンクを開く | ページが開く |
+| 7 | ドメイン直下の分離を判断（§0 の A） | アプリが 3 つになったので、ドメイン直下（トップ・robots・ads.txt）を小さなリポジトリに分けるか決める | 方針が決まる |
+| 8 | ChordTransposer の robots.txt の PR をマージ（5-6） | PR を開き、Cloudflare のプレビュービルドが成功していれば squash マージ | https://ktkwmr.com/robots.txt に `Sitemap: https://ktkwmr.com/setlistmetronome/sitemap.xml` がある |
+| 9 | Claude の GitHub App にリポジトリを許可（1-4） | https://github.com/settings/installations → Claude → Configure → Repository access に `SetlistMetronome` を追加（クラウドのセッションで使うとき） | 一覧にリポジトリが出る |
