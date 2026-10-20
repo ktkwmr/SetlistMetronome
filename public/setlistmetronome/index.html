@@ -107,7 +107,7 @@
     .chip.mono { font-family: var(--mono); min-width: 42px; padding: 0 8px; }
     .chip.sq { width: var(--ctl-h); padding: 0; }
     .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-    .chip:active { background: var(--line); }
+    .chip:active:not(:disabled) { background: var(--line); }
     .chip[aria-pressed="true"]:active { background: var(--press); }
     .chip:disabled { opacity: .4; cursor: default; }
     @media (hover: hover) {
