@@ -94,8 +94,6 @@
     .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 8px 12px; min-height: 40px; padding: 0 6px 0 16px; border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 700; flex-wrap: wrap; }
     .panel-body { padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 18px; }
     .intro { margin: 0; color: var(--muted); font-size: 13px; }
-    /* On a computer each sentence gets its own line; on a phone the text just wraps */
-    @media (min-width: 901px) { .intro span { display: block; } }
     .foot { color: var(--subtle); font-size: 12px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .foot svg { flex: 0 0 auto; }
 
@@ -237,7 +235,7 @@
   </header>
 
   <main class="canvas">
-    <p class="intro" data-i18n-html="intro"><span>A metronome that keeps the tempo, time signature, rhythm, and sound for each song.</span> <span>Pick a song in the setlist to switch to its settings.</span> <span>Changes are saved automatically and are still there next time.</span> <span>Free, no sign-up, and it works offline.</span></p>
+    <p class="intro" data-i18n="intro">A metronome that keeps the tempo, time signature, rhythm, and sound for each song. Pick a song in the setlist to switch to its settings. Changes are saved automatically and are still there next time. Free, no sign-up, and it works offline.</p>
     <div class="layout">
       <aside class="panel" aria-label="Setlist" data-i18n-attr="aria-label:list">
         <div class="panel-head"><span data-i18n="list">Setlist</span><span class="count" id="count"></span></div>
@@ -384,7 +382,7 @@
       const I18N = {
         en: {
           "settings": "Settings",
-          "intro": "<span>A metronome that keeps the tempo, time signature, rhythm, and sound for each song.</span> <span>Pick a song in the setlist to switch to its settings.</span> <span>Changes are saved automatically and are still there next time.</span> <span>Free, no sign-up, and it works offline.</span>",
+          "intro": "A metronome that keeps the tempo, time signature, rhythm, and sound for each song. Pick a song in the setlist to switch to its settings. Changes are saved automatically and are still there next time. Free, no sign-up, and it works offline.",
           "list": "Setlist",
           "metronome": "Metronome",
           "count": "{n} songs",
@@ -461,7 +459,7 @@
         },
         ja: {
           "settings": "設定",
-          "intro": "<span>曲ごとにテンポ・拍子・リズム・音色を保存しておけるメトロノームです。</span> <span>セットリストで曲を選ぶと、その設定に切り替わります。</span> <span>変更は自動で保存され、次に開いたときもそのまま残ります。</span> <span>無料・登録不要で、オフラインでも使えます。</span>",
+          "intro": "曲ごとにテンポ・拍子・リズム・音色を保存しておけるメトロノームです。セットリストで曲を選ぶと、その設定に切り替わります。変更は自動で保存され、次に開いたときもそのまま残ります。無料・登録不要で、オフラインでも使えます。",
           "list": "セットリスト",
           "metronome": "メトロノーム",
           "count": "{n}曲",
