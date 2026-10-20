@@ -121,12 +121,14 @@
 
     /* Setlist */
     .songs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-    .song { appearance: none; width: 100%; text-align: left; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--paper); color: var(--ink); padding: 8px 12px; cursor: pointer; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 10px; align-items: center; transition: background-color .12s, border-color .12s; }
-    .song .no { font-family: var(--mono); font-size: 12px; color: var(--subtle); grid-row: span 2; min-width: 2ch; text-align: right; }
+    /* The number sits outside the card so it stays in place when songs are reordered */
+    .songs li { display: flex; align-items: center; gap: 8px; }
+    .songs .no { flex: none; font-family: var(--mono); font-size: 12px; color: var(--subtle); min-width: 2ch; text-align: right; font-variant-numeric: tabular-nums; }
+    .song { appearance: none; flex: 1; min-width: 0; text-align: left; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--paper); color: var(--ink); padding: 8px 12px; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr); transition: background-color .12s, border-color .12s; }
     .song .nm { font-weight: 700; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-height: 1.6em; }
     .song .mt { font-family: var(--mono); font-size: 11px; color: var(--subtle); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .song[aria-current="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-    .song[aria-current="true"] .no, .song[aria-current="true"] .mt { color: var(--line-strong); }
+    .song[aria-current="true"] .mt { color: var(--line-strong); }
     @media (hover: hover) { .song:hover { border-color: var(--ink); } .song:not([aria-current="true"]):hover { background: var(--hover-fill); } }
     .list-actions { display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--line); padding-top: 14px; }
     .list-actions .grow { flex: 1 1 100%; }
@@ -782,9 +784,10 @@
           const no = document.createElement("span"); no.className = "no"; no.textContent = i + 1;
           const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = p.name;
           const mt = document.createElement("span"); mt.className = "mt"; mt.textContent = metaText(p);
-          b.append(no, nm, mt);
+          no.setAttribute("aria-hidden", "true");
+          b.append(nm, mt);
           b.onclick = () => select(p.id);
-          li.appendChild(b); box.appendChild(li);
+          li.append(no, b); box.appendChild(li);
         });
         const idx = store.presets.findIndex((p) => p.id === store.current), n = store.presets.length;
         $("count").textContent = n === 1 ? t("count.one") : t("count", { n: n });
