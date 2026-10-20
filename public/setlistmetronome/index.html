@@ -198,6 +198,7 @@
     .primary:active { background: var(--press); }
     @media (hover: hover) { .primary:hover { background: var(--press-hover); } }
     dialog.msg { width: min(420px, calc(100vw - 32px)); border: 1px solid var(--ink); border-radius: 12px; padding: 24px 24px 20px; box-shadow: var(--shadow); background: var(--paper); color: var(--ink); font-family: var(--sans); }
+    dialog.msg:focus { outline: none; }
     dialog.msg::backdrop { background: rgba(0, 0, 0, 0.55); }
     dialog.msg h2 { margin: 0 0 8px; font-size: 16px; font-weight: 700; }
     dialog.msg .dlg-actions { display: flex; justify-content: flex-end; }
@@ -327,7 +328,7 @@
     <footer class="foot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg><span id="saveState" data-i18n="foot">Your setlist is saved in this browser and kept when you close it. No account or data upload.</span></footer>
   </main>
 
-  <dialog class="msg help" id="helpDlg" aria-labelledby="helpTitle">
+  <dialog class="msg help" id="helpDlg" tabindex="-1" aria-labelledby="helpTitle">
     <h2 id="helpTitle" data-i18n="menu.help">How to use</h2>
     <div class="help-body">
       <ol class="help-list" data-i18n-html="help.body">
@@ -345,7 +346,7 @@
     </div>
   </dialog>
 
-  <dialog class="msg help" id="privacyDlg" aria-labelledby="privacyTitle">
+  <dialog class="msg help" id="privacyDlg" tabindex="-1" aria-labelledby="privacyTitle">
     <h2 id="privacyTitle" data-i18n="menu.privacy">Privacy</h2>
     <div class="help-body">
       <ul class="help-list" data-i18n-html="privacy.body">
@@ -368,7 +369,7 @@
     <button type="button" role="menuitem" id="menuAbout" data-i18n="menu.about">About</button>
   </div>
 
-  <dialog class="msg about" id="aboutDlg" aria-labelledby="aboutTitle">
+  <dialog class="msg about" id="aboutDlg" tabindex="-1" aria-labelledby="aboutTitle">
     <h2 id="aboutTitle" data-i18n="menu.about">About</h2>
     <p class="about-license" data-i18n-html="about.license">© 2026 ktkwmr · Licensed under the <a href="https://github.com/ktkwmr/SetlistMetronome/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a> · <a href="/setlistmetronome/about/">About this site</a></p>
     <div class="about-body"><pre id="licenseText">Loading…</pre></div>
@@ -1010,24 +1011,31 @@
         }
       }
 
+      // Focus the dialog itself, not its first link, so no link looks selected on open
+      function openDlg(dlg) {
+        if (typeof dlg.showModal !== "function") return;
+        dlg.showModal(); dlg.focus();
+      }
       $("menuHelp").addEventListener("click", function () {
         closeMenu(false);
-        if (typeof helpDlg.showModal === "function") helpDlg.showModal();
+        openDlg(helpDlg);
       });
       $("menuPrivacy").addEventListener("click", function () {
         closeMenu(false);
-        if (typeof privacyDlg.showModal === "function") privacyDlg.showModal();
+        openDlg(privacyDlg);
       });
       $("menuAbout").addEventListener("click", function () {
         closeMenu(false);
         loadLicenses();
-        if (typeof aboutDlg.showModal === "function") aboutDlg.showModal();
+        openDlg(aboutDlg);
       });
 
       // Dialogs: close with the Close button or a click outside
       [[helpDlg, "helpClose"], [privacyDlg, "privacyClose"], [aboutDlg, "aboutClose"]].forEach(function (pair) {
         const dlg = pair[0];
         $(pair[1]).addEventListener("click", function () { dlg.close(); });
+        // The menu item that opened it is hidden, so return focus to the settings button
+        dlg.addEventListener("close", function () { $("settingsBtn").focus(); });
         dlg.addEventListener("click", function (e) {
           const r = dlg.getBoundingClientRect();
           if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dlg.close();
