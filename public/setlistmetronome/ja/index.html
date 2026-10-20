@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<!-- Generated from ../index.html by scripts/build-ja.mjs. Do not edit. -->
+<html lang="ja" data-page-lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <base href="/setlistmetronome/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Metronome" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <title>Setlist Metronome – 曲ごとにテンポと拍子を保存できる無料メトロノーム</title>
+  <meta name="description" content="セットリストの曲ごとにBPM・拍子・ビート（8ビート・16ビート・3連符・シャッフル）・音色・アクセントを保存して、ワンタップで切り替えられる無料のオンラインメトロノーム。タップテンポ・ドラム音にも対応。登録不要・オフライン対応。" />
+  <link rel="canonical" href="https://ktkwmr.com/setlistmetronome/ja/" />
+  <link rel="alternate" hreflang="en" href="https://ktkwmr.com/setlistmetronome/" />
+  <link rel="alternate" hreflang="ja" href="https://ktkwmr.com/setlistmetronome/ja/" />
+  <link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/setlistmetronome/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Setlist Metronome" />
+  <meta property="og:title" content="Setlist Metronome – 曲ごとにテンポと拍子を保存できる無料メトロノーム" />
+  <meta property="og:description" content="曲ごとのBPM・拍子・ビート・音色を覚えておけるメトロノーム。ライブやバンド練習のセットリストを順に切り替えて使えます。無料・登録不要・オフライン対応。" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:url" content="https://ktkwmr.com/setlistmetronome/ja/" />
+  <meta property="og:image" content="https://ktkwmr.com/setlistmetronome/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Setlist Metronome：曲ごとにBPM・拍子・ビートを保存したセットリストとメトロノーム" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Setlist Metronome",
+    "url": "https://ktkwmr.com/setlistmetronome/ja/",
+    "description": "セットリストの曲ごとにテンポ・拍子・ビート・音色を保存して切り替えられるオンラインメトロノーム。",
+    "applicationCategory": "MultimediaApplication",
+    "inLanguage": "ja",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires a modern web browser",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "ktkwmr" }
+  }
+  </script>
+  <style>
+    /* Layout: same as ktkwmr.com/chordtransposer and /guitarchordfinder. White toolbar, grey canvas with white panels (left: song list / right: metronome) */
+    :root {
+      color-scheme: light;
+      --ink: #000; --paper: #fff; --muted: #525252; --subtle: #737373; --line: #e5e5e5; --line-strong: #d4d4d4;
+      --hover-fill: #f5f5f5; --canvas: #f5f5f5; --press: #404040; --press-hover: #262626;
+      --paper-shadow: 0 1px 3px rgba(0,0,0,.08), 0 6px 20px rgba(0,0,0,.08);
+      --shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
+      --radius: 8px; --ctl-h: 34px;
+      --mono: "Cascadia Mono", "Consolas", "SF Mono", Menlo, "MS Gothic", monospace;
+      --sans: "Segoe UI Variable Text", "Segoe UI", "Yu Gothic UI", "Meiryo UI", "Meiryo", system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+      --pad-x: 20px;
+      /* Notch / home bar in landscape (0 where unsupported) */
+      --gl: max(var(--pad-x), env(safe-area-inset-left, 0px)); --gr: max(var(--pad-x), env(safe-area-inset-right, 0px));
+    }
+    @media (max-width: 900px) { :root { --pad-x: 16px; } }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100dvh; color: var(--ink); background: var(--canvas); font-family: var(--sans); font-size: 13px; line-height: 1.6; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+    button, select, input { font-family: inherit; }
+    :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+    /* Toolbar */
+    .topbar { background: var(--paper); border-bottom: 1px solid var(--line); padding: calc(10px + env(safe-area-inset-top, 0px)) var(--gr) 10px var(--gl); }
+    .toolbar { display: flex; align-items: center; gap: 12px 20px; }
+    .brand { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 14px; font-weight: 700; letter-spacing: .01em; white-space: nowrap; }
+    .brand svg { width: 28px; height: 28px; flex: 0 0 auto; }
+    .toolbar .end { margin-left: auto; display: flex; align-items: center; }
+    #settingsBtn { appearance: none; width: var(--ctl-h); height: var(--ctl-h); padding: 0; border: 1px solid transparent; border-radius: 50%; background: var(--paper); color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+    #settingsBtn svg { flex: none; width: 28px; height: 28px; }
+    #settingsBtn:active { background: var(--line); }
+    @media (hover: hover) { #settingsBtn:hover { background: var(--hover-fill); } }
+
+    /* Settings menu (below the gear button) */
+    .menu { position: fixed; z-index: 1000; min-width: 168px; padding: 4px; border: 1px solid var(--ink); border-radius: var(--radius); background: var(--paper); box-shadow: var(--shadow); }
+    .menu button, .menu a { display: block; width: 100%; height: 40px; padding: 0 12px; border: 0; border-radius: 6px; background: transparent; color: var(--ink); font-size: 14px; font-weight: 600; text-align: left; cursor: pointer; }
+    .menu a { line-height: 40px; text-decoration: none; white-space: nowrap; }
+    .menu button:active, .menu a:active { background: var(--line); }
+    .menu button:focus-visible, .menu a:focus-visible { outline-offset: -2px; }
+    @media (hover: hover) { .menu button:hover, .menu a:hover { background: var(--hover-fill); } }
+
+    /* Canvas and panels */
+    .canvas { padding: 16px var(--gr) calc(16px + env(safe-area-inset-bottom, 0px)) var(--gl); display: flex; flex-direction: column; gap: 12px; }
+    .layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 16px; align-items: start; }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .layout .out { order: -1; } }
+    .panel { min-width: 0; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+    .panel.out { border-color: transparent; box-shadow: var(--paper-shadow); }
+    .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 8px 12px; min-height: 40px; padding: 0 6px 0 16px; border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 700; flex-wrap: wrap; }
+    .panel-body { padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 18px; }
+    .intro { margin: 0; color: var(--muted); font-size: 13px; max-width: 72ch; }
+    .foot { color: var(--subtle); font-size: 12px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .foot svg { flex: 0 0 auto; }
+
+    /* Shared controls */
+    .group { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .label { font-size: 12px; font-weight: 700; color: var(--ink); display: flex; justify-content: space-between; gap: 8px; }
+    .label .val { font-family: var(--mono); color: var(--muted); font-weight: 700; }
+    .hint { font-size: 12px; color: var(--subtle); margin: 0; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { appearance: none; height: var(--ctl-h); padding: 0 12px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--paper); color: var(--ink); font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: background-color .12s, border-color .12s, color .12s; touch-action: manipulation; }
+    .chip.mono { font-family: var(--mono); min-width: 42px; padding: 0 8px; }
+    .chip.sq { width: var(--ctl-h); padding: 0; }
+    .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .chip:active { background: var(--line); }
+    .chip[aria-pressed="true"]:active { background: var(--press); }
+    .chip:disabled { opacity: .4; cursor: default; }
+    @media (hover: hover) {
+      .chip:hover:not(:disabled) { border-color: var(--ink); background: var(--hover-fill); }
+      .chip[aria-pressed="true"]:hover { background: var(--press-hover); }
+    }
+    input[type=range] { width: 100%; accent-color: var(--ink); margin: 0; height: 24px; }
+    .stepper { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .stepper .num { font-family: var(--mono); font-weight: 700; font-size: 15px; min-width: 2.4ch; text-align: center; }
+    .slash { font-family: var(--mono); font-weight: 700; color: var(--subtle); }
+
+    /* Song list */
+    .songs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+    .song { appearance: none; width: 100%; text-align: left; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--paper); color: var(--ink); padding: 8px 12px; cursor: pointer; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 10px; align-items: center; transition: background-color .12s, border-color .12s; }
+    .song .no { font-family: var(--mono); font-size: 12px; color: var(--subtle); grid-row: span 2; min-width: 2ch; text-align: right; }
+    .song .nm { font-weight: 700; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .song .mt { font-family: var(--mono); font-size: 11px; color: var(--subtle); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .song[aria-current="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .song[aria-current="true"] .no, .song[aria-current="true"] .mt { color: var(--line-strong); }
+    @media (hover: hover) { .song:hover { border-color: var(--ink); } .song:not([aria-current="true"]):hover { background: var(--hover-fill); } }
+    .list-actions { display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--line); padding-top: 14px; }
+    .list-actions .grow { flex: 1 1 100%; }
+    .count { font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--subtle); padding-right: 10px; }
+
+    /* Metronome */
+    .name-wrap { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; }
+    .song-no { font-family: var(--mono); font-size: 15px; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .name-input { flex: 1; min-width: 0; height: 32px; border: 1px solid transparent; border-radius: var(--radius); background: transparent; color: var(--ink); font-size: 15px; font-weight: 700; padding: 0 8px; margin-left: -8px; }
+    .name-input:hover { border-color: var(--line-strong); }
+    .name-input:focus { border-color: var(--ink); outline: none; }
+    .name-input::placeholder { color: var(--subtle); font-weight: 600; }
+    .nav { display: flex; gap: 4px; padding: 4px 0; flex-wrap: wrap; }
+    .display { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 22px 16px 20px; border-bottom: 1px solid var(--line); }
+    .bpm-row { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: nowrap; }
+    .bpm-box { display: flex; flex-direction: column; align-items: center; min-width: 0; }
+    .bpm-input { appearance: textfield; -moz-appearance: textfield; width: 4.2ch; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--ink); font-family: var(--mono); font-size: 72px; font-weight: 700; line-height: 1; text-align: center; padding: 0; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+    .bpm-input::-webkit-outer-spin-button, .bpm-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .bpm-input:focus { outline: none; border-bottom-color: var(--ink); }
+    .bpm-sub { font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: baseline; }
+    .bpm-sub .term { font-style: italic; font-weight: 600; color: var(--ink); }
+    .bpm-sub .unit { font-family: var(--mono); }
+    .bpm-slider { width: 100%; max-width: 520px; }
+    @media (max-width: 480px) { .bpm-input { font-size: 56px; } .bpm-row .chip.mono { min-width: 36px; padding: 0 4px; } }
+
+    .beats { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 8px; max-width: 640px; }
+    .beat { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 46px; }
+    .dot { appearance: none; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); font: 700 14px var(--mono); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform .06s, background-color .06s, box-shadow .06s; touch-action: manipulation; }
+    .dot[data-acc="2"] { background: var(--ink); color: var(--paper); }
+    .dot[data-acc="0"] { border-style: dashed; border-color: var(--subtle); color: var(--subtle); }
+    .dot.on { transform: scale(1.14); box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--ink); }
+    .dot.on[data-acc="1"] { background: var(--line); }
+    .dot.on[data-acc="0"] { background: var(--hover-fill); }
+    .ticks { position: relative; width: 40px; height: 6px; border-radius: 3px; background: var(--line); }
+    .tk { position: absolute; top: 0; width: 4px; height: 6px; margin-left: -2px; border-radius: 2px; background: var(--line-strong); }
+    .tk:first-child { margin-left: 0; }
+    .tk.on { background: var(--ink); }
+    .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; justify-content: center; font-size: 12px; color: var(--subtle); }
+    .legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .lg { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--ink); background: var(--paper); }
+    .lg.s { background: var(--ink); }
+    .lg.m { border-style: dashed; border-color: var(--subtle); }
+
+    .transport { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 520px; }
+    .play { appearance: none; flex: 1 1 220px; height: 52px; border: 0; border-radius: 10px; background: var(--ink); color: var(--paper); font-size: 16px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; touch-action: manipulation; }
+    .play svg { width: 18px; height: 18px; }
+    @media (hover: hover) { .play:hover { background: var(--press-hover); } }
+    .play:active { background: var(--press); }
+    .tap { flex: 0 1 120px; height: 52px; font-size: 14px; }
+
+    .settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; padding: 16px 16px 20px; }
+    @media (max-width: 640px) { .settings { grid-template-columns: 1fr; } }
+    .keys { font-size: 12px; color: var(--subtle); padding: 0 16px 16px; margin: 0; }
+    kbd { font-family: var(--mono); font-size: 11px; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; color: var(--muted); background: var(--paper); }
+    @media (pointer: coarse) { .keys { display: none; } }
+
+    /* Dialogs */
+    .primary { appearance: none; height: var(--ctl-h); padding: 0 16px; border: 1px solid transparent; border-radius: var(--radius); color: var(--paper); background: var(--ink); font-weight: 600; cursor: pointer; }
+    .primary:active { background: var(--press); }
+    @media (hover: hover) { .primary:hover { background: var(--press-hover); } }
+    dialog.msg { width: min(420px, calc(100vw - 32px)); border: 1px solid var(--ink); border-radius: 12px; padding: 24px 24px 20px; box-shadow: var(--shadow); background: var(--paper); color: var(--ink); font-family: var(--sans); }
+    dialog.msg::backdrop { background: rgba(0, 0, 0, 0.55); }
+    dialog.msg h2 { margin: 0 0 8px; font-size: 16px; font-weight: 700; }
+    dialog.msg .dlg-actions { display: flex; justify-content: flex-end; }
+    dialog.help { width: min(480px, calc(100vw - 32px)); max-height: calc(100% - 32px); }
+    dialog.help[open] { display: flex; flex-direction: column; }
+    .help-body { flex: 0 1 auto; min-height: 0; overflow-y: auto; margin-bottom: 16px; -webkit-overflow-scrolling: touch; }
+    .help-list { margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7; color: var(--muted); }
+    .help-list li { margin-bottom: 10px; }
+    .help-list li:last-child { margin-bottom: 0; }
+    .help-list b { color: var(--ink); }
+    ul.help-list { list-style: disc; }
+    .help-list a { color: inherit; }
+    dialog.msg p.help-more { margin: 14px 0 0; padding-left: 20px; font-size: 13px; }
+    .help-more a { color: var(--ink); font-weight: 600; }
+    dialog.about { width: min(560px, calc(100vw - 32px)); height: min(640px, calc(100% - 32px)); }
+    dialog.about[open] { display: flex; flex-direction: column; }
+    dialog.msg p.about-license { margin: 0 0 12px; color: var(--subtle); font-size: 12px; }
+    .about-license a { color: inherit; }
+    .about-body { flex: 1 1 auto; min-height: 0; overflow: auto; margin-bottom: 16px; border: 1px solid var(--line); border-radius: var(--radius); -webkit-overflow-scrolling: touch; }
+    .about-body pre { margin: 0; padding: 12px; color: var(--muted); font-family: var(--mono); font-size: 11px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; user-select: text; }
+    @media (prefers-reduced-motion: reduce) { *, ::before, ::after { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="toolbar">
+      <h1 class="brand">
+        <svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#000"></rect><g fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M10.5 6.5h7l3 15h-13z"></path><path d="M14 19.5l4-10"></path></g><circle cx="17.2" cy="11.5" r="1.6" fill="#fff"></circle></svg>
+        <span>Setlist Metronome</span>
+      </h1>
+      <div class="end">
+        <button id="settingsBtn" type="button" aria-label="設定" data-i18n-attr="aria-label:settings" aria-haspopup="menu" aria-expanded="false" aria-controls="settingsMenu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.89 5.11 L10.33 2.55 L13.67 2.55 L14.11 5.11 A7.2 7.2 0 0 1 15.38 5.64 L17.51 4.14 L19.86 6.49 L18.36 8.62 A7.2 7.2 0 0 1 18.89 9.89 L21.45 10.33 L21.45 13.67 L18.89 14.11 A7.2 7.2 0 0 1 18.36 15.38 L19.86 17.51 L17.51 19.86 L15.38 18.36 A7.2 7.2 0 0 1 14.11 18.89 L13.67 21.45 L10.33 21.45 L9.89 18.89 A7.2 7.2 0 0 1 8.62 18.36 L6.49 19.86 L4.14 17.51 L5.64 15.38 A7.2 7.2 0 0 1 5.11 14.11 L2.55 13.67 L2.55 10.33 L5.11 9.89 A7.2 7.2 0 0 1 5.64 8.62 L4.14 6.49 L6.49 4.14 L8.62 5.64 A7.2 7.2 0 0 1 9.89 5.11 Z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="canvas">
+    <p class="intro" data-i18n="intro">曲ごとにテンポ・拍子・リズム・音色を保存しておけるメトロノームです。左のリストで曲を選ぶと、その設定に切り替わります。変更は自動で保存され、次に開いたときもそのまま残ります。無料・登録不要で、オフラインでも使えます。</p>
+    <div class="layout">
+      <aside class="panel" aria-label="曲リスト" data-i18n-attr="aria-label:list">
+        <div class="panel-head"><span data-i18n="list">曲リスト</span><span class="count" id="count"></span></div>
+        <div class="panel-body">
+          <ol class="songs" id="songs"></ol>
+          <div class="list-actions">
+            <button type="button" class="chip grow" id="addBtn" data-i18n="add">＋ 曲の追加</button>
+            <button type="button" class="chip" id="dupBtn" data-i18n="dup">複製</button>
+            <button type="button" class="chip sq mono" id="upBtn" aria-label="選択中の曲を上へ" data-i18n-attr="aria-label:up">↑</button>
+            <button type="button" class="chip sq mono" id="downBtn" aria-label="選択中の曲を下へ" data-i18n-attr="aria-label:down">↓</button>
+            <button type="button" class="chip" id="delBtn" data-i18n="del">削除</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="panel out" aria-label="メトロノーム" data-i18n-attr="aria-label:metronome">
+        <div class="panel-head">
+          <div class="name-wrap">
+            <label for="nameInput" class="song-no" id="songNo"></label>
+            <input id="nameInput" class="name-input" type="text" maxlength="60" autocomplete="off" placeholder="タイトルを入力" aria-label="曲名" data-i18n-attr="placeholder:name.ph;aria-label:name">
+          </div>
+          <div class="nav">
+            <button type="button" class="chip" id="prevBtn" aria-label="前の曲" data-i18n="prev" data-i18n-attr="aria-label:prev.aria">← 前</button>
+            <button type="button" class="chip" id="nextBtn" aria-label="次の曲" data-i18n="next" data-i18n-attr="aria-label:next.aria">次 →</button>
+            <button type="button" class="chip" id="addBtn2" data-i18n="add">＋ 曲の追加</button>
+          </div>
+        </div>
+
+        <div class="display">
+          <div class="bpm-row">
+            <button type="button" class="chip mono" data-bpm="-5" aria-label="BPMを5下げる" data-i18n-attr="aria-label:bpm.m5">−5</button>
+            <button type="button" class="chip mono" data-bpm="-1" aria-label="BPMを1下げる" data-i18n-attr="aria-label:bpm.m1">−1</button>
+            <div class="bpm-box">
+              <input id="bpmInput" class="bpm-input" type="number" inputmode="numeric" min="20" max="300" aria-label="BPM">
+              <div class="bpm-sub"><span class="unit" id="noteUnit"></span><span class="term" id="term"></span></div>
+            </div>
+            <button type="button" class="chip mono" data-bpm="1" aria-label="BPMを1上げる" data-i18n-attr="aria-label:bpm.p1">+1</button>
+            <button type="button" class="chip mono" data-bpm="5" aria-label="BPMを5上げる" data-i18n-attr="aria-label:bpm.p5">+5</button>
+          </div>
+          <input id="bpmSlider" class="bpm-slider" type="range" min="20" max="300" step="1" aria-label="BPMスライダー" data-i18n-attr="aria-label:bpm.slider">
+          <div class="beats" id="beats"></div>
+          <div class="legend"><span><i class="lg s"></i><span data-i18n="acc.2">強拍</span></span><span><i class="lg"></i><span data-i18n="acc.1">普通</span></span><span><i class="lg m"></i><span data-i18n="acc.0">鳴らさない</span></span><span data-i18n="acc.hint">丸を押すと切り替わります</span></div>
+          <div class="transport">
+            <button type="button" class="play" id="playBtn"></button>
+            <button type="button" class="chip tap" id="tapBtn" data-i18n="tap">タップ</button>
+          </div>
+        </div>
+
+        <div class="settings">
+          <div class="group">
+            <span class="label" data-i18n="meter">拍子</span>
+            <div class="stepper">
+              <button type="button" class="chip sq mono" id="numDown" aria-label="分子（拍数）を減らす" data-i18n-attr="aria-label:num.down">−</button>
+              <span class="num" id="numVal"></span>
+              <button type="button" class="chip sq mono" id="numUp" aria-label="分子（拍数）を増やす" data-i18n-attr="aria-label:num.up">+</button>
+              <span class="slash">/</span>
+              <button type="button" class="chip sq mono" id="denDown" aria-label="分母を小さくする" data-i18n-attr="aria-label:den.down">−</button>
+              <span class="num" id="denVal"></span>
+              <button type="button" class="chip sq mono" id="denUp" aria-label="分母を大きくする" data-i18n-attr="aria-label:den.up">+</button>
+            </div>
+            <p class="hint" data-i18n="meter.hint">BPMは1拍（分母の音符）あたりの数です。</p>
+          </div>
+          <div class="group">
+            <span class="label" data-i18n="rhythm">ビート</span>
+            <div class="chips" id="subs"></div>
+            <div class="group" id="swingGroup">
+              <label class="label" for="swing"><span data-i18n="swing">ハネ具合</span> <span class="val" id="swingVal"></span></label>
+              <input type="range" id="swing" min="55" max="75" step="1">
+              <p class="hint" data-i18n="swing.hint">67%で3連符のシャッフル。小さくするとハネが浅くなります。</p>
+            </div>
+          </div>
+          <div class="group">
+            <span class="label" data-i18n="sound">音色</span>
+            <div class="chips" id="sounds"></div>
+            <p class="hint" id="soundHint"></p>
+          </div>
+          <div class="group">
+            <label class="label" for="vol"><span data-i18n="vol">音量</span> <span class="val" id="volVal"></span></label>
+            <input type="range" id="vol" min="0" max="100" step="1">
+            <label class="label" for="subVol"><span data-i18n="subVol">細かい音（裏拍など）の音量</span> <span class="val" id="subVolVal"></span></label>
+            <input type="range" id="subVol" min="0" max="100" step="1">
+          </div>
+        </div>
+        <p class="keys" data-i18n-html="keys"><kbd>Space</kbd> スタート/ストップ　<kbd>↑</kbd><kbd>↓</kbd> BPM ±1（<kbd>Shift</kbd>で±5）　<kbd>←</kbd><kbd>→</kbd> 前/次の曲　<kbd>T</kbd> タップ</p>
+      </section>
+    </div>
+    <footer class="foot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg><span id="saveState" data-i18n="foot">曲リストはこのブラウザに自動で保存され、閉じても残ります。アカウント登録や通信は不要です。</span></footer>
+  </main>
+
+  <dialog class="msg help" id="helpDlg" aria-labelledby="helpTitle">
+    <h2 id="helpTitle" data-i18n="menu.help">使い方</h2>
+    <div class="help-body">
+      <ol class="help-list" data-i18n-html="help.body"><li><b>曲を追加</b> – 「＋ 曲の追加」を押してタイトルを入力します。曲ごとに設定が保存されます。</li>
+        <li><b>テンポ</b> – −5／−1／+1／+5、スライダー、数字の直接入力のほか、曲に合わせて「タップ」を押しても設定できます。</li>
+        <li><b>拍子</b> – 分子と分母をそれぞれ − と + で設定します。BPM は分母の音符 1 つあたりの数です。</li>
+        <li><b>ビートと音色</b> – 4ビート・8ビート・16ビート・3連符・シャッフルと、音色を選びます。ドラムはキック・スネア・ハイハットの簡単なパターンを鳴らします。</li>
+        <li><b>アクセント</b> – 拍の丸を押すと、強拍・普通・鳴らさないが切り替わります。</li>
+        <li><b>セットリストの練習</b> – 「← 前」「次 →」で曲を移ります。再生中なら、そのまま次の曲の設定で鳴り続けます。</li></ol>
+      <p class="help-more"><a href="/setlistmetronome/ja/guide/" data-i18n="help.more" data-i18n-attr="href:guide.url">詳しい使い方ガイドを読む →</a></p>
+    </div>
+    <div class="dlg-actions">
+      <button class="primary" id="helpClose" type="button" data-i18n="close">閉じる</button>
+    </div>
+  </dialog>
+
+  <dialog class="msg help" id="privacyDlg" aria-labelledby="privacyTitle">
+    <h2 id="privacyTitle" data-i18n="menu.privacy">プライバシー</h2>
+    <div class="help-body">
+      <ul class="help-list" data-i18n-html="privacy.body"><li><b>すべて端末の中で動きます</b> – 音はブラウザの中だけで作ります。曲や設定がサーバーに送られることはありません。アカウント登録・Cookie・広告はありません。</li>
+        <li><b>ブラウザに保存するデータ</b> – 次に開いたときにも使えるよう、曲リスト（タイトル・テンポ・拍子・ビート・音色・アクセント・音量）をブラウザ内に保存します。オフラインで使えるよう、アプリ本体も保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>
+        <li><b>サーバーのログと閲覧数</b> – 本サイトは Cloudflare で配信しています。運用とセキュリティのため、一般的なアクセスログ（IP アドレス・日時・アクセスしたページなど）が記録されます。Cloudflare Web Analytics で、Cookie を使わずにページの閲覧数（ページの URL・参照元・ブラウザの情報・表示速度）を集計しています。</li>
+        <li><b>お問い合わせ</b> – ご質問・ご意見は <a href="https://github.com/ktkwmr/SetlistMetronome/issues" target="_blank" rel="noopener">GitHub の Issues</a> へ。</li>
+        <li><b>詳しくは</b> – <a href="/setlistmetronome/ja/privacy/">プライバシーポリシー</a>と<a href="/setlistmetronome/ja/about/">運営者情報</a>をご覧ください。</li></ul>
+    </div>
+    <div class="dlg-actions">
+      <button class="primary" id="privacyClose" type="button" data-i18n="close">閉じる</button>
+    </div>
+  </dialog>
+
+  <div class="menu" id="settingsMenu" role="menu" aria-label="設定" data-i18n-attr="aria-label:settings" hidden>
+    <button type="button" role="menuitem" id="menuHelp" data-i18n="menu.help">使い方</button>
+    <a role="menuitem" id="menuGuide" href="/setlistmetronome/ja/guide/" data-i18n="menu.guide" data-i18n-attr="href:guide.url">ガイド・記事</a>
+    <button type="button" role="menuitem" id="menuPrivacy" data-i18n="menu.privacy">プライバシー</button>
+    <button type="button" role="menuitem" id="menuAbout" data-i18n="menu.about">このアプリについて</button>
+  </div>
+
+  <dialog class="msg about" id="aboutDlg" aria-labelledby="aboutTitle">
+    <h2 id="aboutTitle" data-i18n="menu.about">このアプリについて</h2>
+    <p class="about-license" data-i18n-html="about.license">© 2026 ktkwmr · <a href="https://github.com/ktkwmr/SetlistMetronome/blob/main/LICENSE" target="_blank" rel="noopener">MIT ライセンス</a> · <a href="/setlistmetronome/ja/about/">運営者情報</a></p>
+    <div class="about-body"><pre id="licenseText">Loading…</pre></div>
+    <div class="dlg-actions">
+      <button class="primary" id="aboutClose" type="button" data-i18n="close">閉じる</button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      // ---------- English / Japanese ----------
+      // Text is set with data-i18n (textContent) / data-i18n-html (innerHTML, fixed strings below only) / data-i18n-attr (attributes)
+      const I18N = {
+        en: {
+          "settings": "Settings",
+          "intro": "A metronome that keeps the tempo, time signature, rhythm, and sound for each song. Pick a song in the list to switch to its settings. Changes are saved automatically and are still there next time. Free, no sign-up, and it works offline.",
+          "list": "Song list",
+          "metronome": "Metronome",
+          "count": "{n} songs",
+          "count.one": "1 song",
+          "add": "+ Add song",
+          "dup": "Duplicate",
+          "up": "Move the song up",
+          "down": "Move the song down",
+          "del": "Delete",
+          "del.confirm": "Really delete?",
+          "name": "Song title",
+          "name.ph": "Enter a title",
+          "untitled": "Untitled",
+          "newSong": "Song {n}",
+          "copyOf": "{name} (copy)",
+          "prev": "← Prev",
+          "next": "Next →",
+          "prev.aria": "Previous song",
+          "next.aria": "Next song",
+          "bpm.m5": "BPM −5",
+          "bpm.m1": "BPM −1",
+          "bpm.p1": "BPM +1",
+          "bpm.p5": "BPM +5",
+          "bpm.slider": "BPM slider",
+          "acc.2": "Accent",
+          "acc.1": "Normal",
+          "acc.0": "Silent",
+          "acc.hint": "Tap a circle to change it",
+          "acc.aria": "Beat {n}: {state} (tap to change)",
+          "start": "Start",
+          "stop": "Stop",
+          "tap": "Tap",
+          "meter": "Time signature",
+          "num.down": "Fewer beats",
+          "num.up": "More beats",
+          "den.down": "Smaller bottom number",
+          "den.up": "Larger bottom number",
+          "meter.hint": "BPM counts the beat note (the bottom number).",
+          "rhythm": "Rhythm",
+          "sub.q": "4 beat",
+          "sub.8": "8ths",
+          "sub.16": "16ths",
+          "sub.trip": "Triplets",
+          "sub.shuf": "Shuffle",
+          "sub.shuf16": "16th shuffle",
+          "swing": "Swing",
+          "swing.hint": "67% is a triplet shuffle. Lower values make the swing lighter.",
+          "sound": "Sound",
+          "snd.click": "Click",
+          "snd.wood": "Woodblock",
+          "snd.beep": "Beep",
+          "snd.cowbell": "Cowbell",
+          "snd.drums": "Drums",
+          "snd.click.hint": "A short, sharp electronic click.",
+          "snd.wood.hint": "A softer sound, like a wooden block.",
+          "snd.beep.hint": "A pitched electronic beep.",
+          "snd.cowbell.hint": "A metal sound that cuts through a band.",
+          "snd.drums.hint": "Kick, snare, and hi-hat play the beat. The hi-hat follows the rhythm you choose.",
+          "vol": "Volume",
+          "subVol": "Volume of the in-between notes",
+          "keys": "<kbd>Space</kbd> start / stop　<kbd>↑</kbd><kbd>↓</kbd> BPM ±1 (<kbd>Shift</kbd> ±5)　<kbd>←</kbd><kbd>→</kbd> previous / next song　<kbd>T</kbd> tap",
+          "foot": "Your songs are saved in this browser and kept when you close it. No account or data upload.",
+          "foot.fail": "This browser cannot save your songs (check private browsing or blocked site data).",
+          "menu.help": "How to use",
+          "menu.guide": "Guides & articles",
+          "menu.privacy": "Privacy",
+          "menu.about": "About",
+          "guide.url": "/setlistmetronome/guide/",
+          "help.more": "Read the full guide →",
+          "help.body": "<li><b>Add songs</b> – Tap “+ Add song” and type the title. Each song keeps its own settings.</li>\n        <li><b>Set the tempo</b> – Use −5 / −1 / +1 / +5, the slider, type the number, or tap “Tap” in time with the music.</li>\n        <li><b>Time signature</b> – Set the top and bottom numbers with − and +. BPM counts the bottom note value.</li>\n        <li><b>Rhythm and sound</b> – Choose 4 beat, 8ths, 16ths, triplets, or a shuffle, and a sound. Drums play a simple kick, snare, and hi-hat pattern.</li>\n        <li><b>Accents</b> – Tap a beat circle to switch it between accent, normal, and silent.</li>\n        <li><b>Practice the setlist</b> – Use “← Prev” and “Next →” to move to the next song. The metronome keeps playing at the new song's settings.</li>",
+          "privacy.body": "<li><b>Everything stays on your device</b> – The sound is made only in your browser. Your songs and settings are never sent to a server. This app has no accounts, cookies, or ads.</li>\n        <li><b>Data saved in your browser</b> – Your song list (titles, tempo, time signature, rhythm, sound, accents, and volume) is saved in your browser's storage so it is there next time. To work offline, the app is saved there too. You can delete them by clearing this site's data in your browser settings.</li>\n        <li><b>Server logs and page views</b> – This site is hosted on Cloudflare. Standard access logs (such as IP address, time, and the requested page) are kept for operation and security. Cloudflare Web Analytics counts page views without cookies (the page URL, referrer, browser information, and page load time).</li>\n        <li><b>Contact</b> – Questions and feedback: <a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">GitHub Issues</a>.</li>\n        <li><b>Full policy</b> – See the <a href=\"/setlistmetronome/privacy/\">privacy policy</a> and <a href=\"/setlistmetronome/about/\">about this site</a>.</li>",
+          "about.license": "© 2026 ktkwmr · Licensed under the <a href=\"https://github.com/ktkwmr/SetlistMetronome/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">MIT License</a> · <a href=\"/setlistmetronome/about/\">About this site</a>",
+          "close": "Close",
+          "loading": "Loading…",
+          "err.license": "Could not load the license information. Check your connection and try again."
+        },
+        ja: {
+          "settings": "設定",
+          "intro": "曲ごとにテンポ・拍子・リズム・音色を保存しておけるメトロノームです。左のリストで曲を選ぶと、その設定に切り替わります。変更は自動で保存され、次に開いたときもそのまま残ります。無料・登録不要で、オフラインでも使えます。",
+          "list": "曲リスト",
+          "metronome": "メトロノーム",
+          "count": "{n}曲",
+          "count.one": "1曲",
+          "add": "＋ 曲の追加",
+          "dup": "複製",
+          "up": "選択中の曲を上へ",
+          "down": "選択中の曲を下へ",
+          "del": "削除",
+          "del.confirm": "本当に削除？",
+          "name": "曲名",
+          "name.ph": "タイトルを入力",
+          "untitled": "名称未設定",
+          "newSong": "曲 {n}",
+          "copyOf": "{name} のコピー",
+          "prev": "← 前",
+          "next": "次 →",
+          "prev.aria": "前の曲",
+          "next.aria": "次の曲",
+          "bpm.m5": "BPMを5下げる",
+          "bpm.m1": "BPMを1下げる",
+          "bpm.p1": "BPMを1上げる",
+          "bpm.p5": "BPMを5上げる",
+          "bpm.slider": "BPMスライダー",
+          "acc.2": "強拍",
+          "acc.1": "普通",
+          "acc.0": "鳴らさない",
+          "acc.hint": "丸を押すと切り替わります",
+          "acc.aria": "{n}拍目: {state}（押して切り替え）",
+          "start": "スタート",
+          "stop": "ストップ",
+          "tap": "タップ",
+          "meter": "拍子",
+          "num.down": "分子（拍数）を減らす",
+          "num.up": "分子（拍数）を増やす",
+          "den.down": "分母を小さくする",
+          "den.up": "分母を大きくする",
+          "meter.hint": "BPMは1拍（分母の音符）あたりの数です。",
+          "rhythm": "ビート",
+          "sub.q": "4ビート",
+          "sub.8": "8ビート",
+          "sub.16": "16ビート",
+          "sub.trip": "3連符",
+          "sub.shuf": "シャッフル",
+          "sub.shuf16": "16シャッフル",
+          "swing": "ハネ具合",
+          "swing.hint": "67%で3連符のシャッフル。小さくするとハネが浅くなります。",
+          "sound": "音色",
+          "snd.click": "クリック",
+          "snd.wood": "ウッドブロック",
+          "snd.beep": "電子音",
+          "snd.cowbell": "カウベル",
+          "snd.drums": "ドラム",
+          "snd.click.hint": "はっきりした短い電子クリック。",
+          "snd.wood.hint": "木を叩いたような柔らかめの音。",
+          "snd.beep.hint": "ピッという音程のある電子音。",
+          "snd.cowbell.hint": "バンドの中でも埋もれにくい金属音。",
+          "snd.drums.hint": "キック・スネア・ハイハットでビートを刻みます。ハイハットはビートの細かさに合わせて鳴ります。",
+          "vol": "音量",
+          "subVol": "細かい音（裏拍など）の音量",
+          "keys": "<kbd>Space</kbd> スタート/ストップ　<kbd>↑</kbd><kbd>↓</kbd> BPM ±1（<kbd>Shift</kbd>で±5）　<kbd>←</kbd><kbd>→</kbd> 前/次の曲　<kbd>T</kbd> タップ",
+          "foot": "曲リストはこのブラウザに自動で保存され、閉じても残ります。アカウント登録や通信は不要です。",
+          "foot.fail": "このブラウザでは曲リストを保存できません（プライベートモードやサイトデータのブロックを確認してください）。",
+          "menu.help": "使い方",
+          "menu.guide": "ガイド・記事",
+          "menu.privacy": "プライバシー",
+          "menu.about": "このアプリについて",
+          "guide.url": "/setlistmetronome/ja/guide/",
+          "help.more": "詳しい使い方ガイドを読む →",
+          "help.body": "<li><b>曲を追加</b> – 「＋ 曲の追加」を押してタイトルを入力します。曲ごとに設定が保存されます。</li>\n        <li><b>テンポ</b> – −5／−1／+1／+5、スライダー、数字の直接入力のほか、曲に合わせて「タップ」を押しても設定できます。</li>\n        <li><b>拍子</b> – 分子と分母をそれぞれ − と + で設定します。BPM は分母の音符 1 つあたりの数です。</li>\n        <li><b>ビートと音色</b> – 4ビート・8ビート・16ビート・3連符・シャッフルと、音色を選びます。ドラムはキック・スネア・ハイハットの簡単なパターンを鳴らします。</li>\n        <li><b>アクセント</b> – 拍の丸を押すと、強拍・普通・鳴らさないが切り替わります。</li>\n        <li><b>セットリストの練習</b> – 「← 前」「次 →」で曲を移ります。再生中なら、そのまま次の曲の設定で鳴り続けます。</li>",
+          "privacy.body": "<li><b>すべて端末の中で動きます</b> – 音はブラウザの中だけで作ります。曲や設定がサーバーに送られることはありません。アカウント登録・Cookie・広告はありません。</li>\n        <li><b>ブラウザに保存するデータ</b> – 次に開いたときにも使えるよう、曲リスト（タイトル・テンポ・拍子・ビート・音色・アクセント・音量）をブラウザ内に保存します。オフラインで使えるよう、アプリ本体も保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>\n        <li><b>サーバーのログと閲覧数</b> – 本サイトは Cloudflare で配信しています。運用とセキュリティのため、一般的なアクセスログ（IP アドレス・日時・アクセスしたページなど）が記録されます。Cloudflare Web Analytics で、Cookie を使わずにページの閲覧数（ページの URL・参照元・ブラウザの情報・表示速度）を集計しています。</li>\n        <li><b>お問い合わせ</b> – ご質問・ご意見は <a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">GitHub の Issues</a> へ。</li>\n        <li><b>詳しくは</b> – <a href=\"/setlistmetronome/ja/privacy/\">プライバシーポリシー</a>と<a href=\"/setlistmetronome/ja/about/\">運営者情報</a>をご覧ください。</li>",
+          "about.license": "© 2026 ktkwmr · <a href=\"https://github.com/ktkwmr/SetlistMetronome/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">MIT ライセンス</a> · <a href=\"/setlistmetronome/ja/about/\">運営者情報</a>",
+          "close": "閉じる",
+          "loading": "読み込み中…",
+          "err.license": "ライセンス情報を読み込めませんでした。接続を確認して、もう一度お試しください。"
+        }
+      };
+
+      // Order: ?lang=ja|en in the URL → the page's fixed language (data-page-lang of ja/index.html) → the browser's first language (English unless Japanese)
+      function detectLang() {
+        const q = new URLSearchParams(location.search).get("lang");
+        if (q === "ja" || q === "en") return q;
+        const fixed = document.documentElement.dataset.pageLang;
+        if (fixed === "ja" || fixed === "en") return fixed;
+        const first = (navigator.languages && navigator.languages[0]) || navigator.language || "";
+        return /^ja\b/i.test(first) ? "ja" : "en";
+      }
+      const lang = detectLang();
+
+      function t(key, vars) {
+        let str = I18N[lang][key];
+        if (str === undefined) str = I18N.en[key] !== undefined ? I18N.en[key] : key;
+        if (vars) str = str.replace(/\{(\w+)\}/g, function (m, k) { return k in vars ? String(vars[k]) : m; });
+        return str;
+      }
+
+      function applyI18n() {
+        document.documentElement.lang = lang;
+        document.querySelectorAll("[data-i18n]").forEach(function (el) { el.textContent = t(el.dataset.i18n); });
+        document.querySelectorAll("[data-i18n-html]").forEach(function (el) { el.innerHTML = t(el.dataset.i18nHtml); });
+        document.querySelectorAll("[data-i18n-attr]").forEach(function (el) {
+          el.dataset.i18nAttr.split(";").forEach(function (pair) {
+            const parts = pair.split(":");
+            el.setAttribute(parts[0], t(parts[1]));
+          });
+        });
+      }
+
+      function isIOS() {
+        return /iP(hone|ad|od)/.test(navigator.userAgent) ||
+          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      }
+      // iOS Safari zooms in when a control under 16px is tapped, so only on iOS add maximum-scale (pinch zoom still works)
+      if (isIOS()) {
+        const vp = document.querySelector('meta[name="viewport"]');
+        if (vp) vp.setAttribute("content", vp.getAttribute("content") + ", maximum-scale=1");
+      }
+
+      // ---------- Settings that each song keeps ----------
+      // pos: where the notes fall inside one beat (0 = the beat, 0.5 = halfway); s is the swing ratio
+      const SUBS = [
+        { id: "q", pos: () => [0] },
+        { id: "8", pos: () => [0, .5] },
+        { id: "16", pos: () => [0, .25, .5, .75] },
+        { id: "trip", pos: () => [0, 1 / 3, 2 / 3] },
+        { id: "shuf", pos: (s) => [0, s], swing: true },
+        { id: "shuf16", pos: (s) => [0, s / 2, .5, .5 + s / 2], swing: true },
+      ];
+      const SOUNDS = ["click", "wood", "beep", "cowbell", "drums"];
+      const DENS = [2, 4, 8, 16];
+      const NOTE = { 2: "𝅗𝅥", 4: "♩", 8: "♪", 16: "𝅘𝅥𝅯" };
+      function tempoTerm(b) {
+        if (b < 40) return "Grave"; if (b < 60) return "Largo"; if (b < 66) return "Larghetto"; if (b < 76) return "Adagio";
+        if (b < 108) return "Andante"; if (b < 120) return "Moderato"; if (b < 168) return "Allegro"; if (b < 177) return "Vivace";
+        if (b < 200) return "Presto"; return "Prestissimo";
+      }
+      // 6/8, 9/8, 12/8: beats are grouped in threes
+      const isCompound = (n, d) => d === 8 && n % 3 === 0 && n > 3;
+      // Accent per beat: 2 = accent, 1 = normal, 0 = silent
+      function defaultAccents(n, d) {
+        const a = Array(n).fill(1); a[0] = 2;
+        if (isCompound(n, d)) for (let i = 3; i < n; i += 3) a[i] = 2;
+        return a;
+      }
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+      const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+      // Every value read from storage is checked, so a broken or old save cannot break the app
+      function sanitize(o) {
+        const p = { id: typeof o.id === "string" && o.id ? o.id : uid(), name: typeof o.name === "string" ? o.name.slice(0, 60) : "" };
+        p.bpm = clamp(Math.round(+o.bpm || 120), 20, 300);
+        p.num = clamp(Math.round(+o.num || 4), 1, 15);
+        p.den = DENS.includes(+o.den) ? +o.den : 4;
+        p.sound = SOUNDS.includes(o.sound) ? o.sound : "click";
+        p.sub = SUBS.some((s) => s.id === o.sub) ? o.sub : "q";
+        p.swing = clamp(+o.swing || .67, .55, .75);
+        p.vol = clamp(o.vol == null ? .8 : +o.vol, 0, 1);
+        p.subVol = clamp(o.subVol == null ? .5 : +o.subVol, 0, 1);
+        p.accents = Array.isArray(o.accents) && o.accents.length === p.num ? o.accents.map((x) => [0, 1, 2].includes(x) ? x : 1) : defaultAccents(p.num, p.den);
+        return p;
+      }
+      const newPreset = (o) => sanitize(Object.assign({ name: t("newSong", { n: 1 }) }, o));
+
+      // ---------- Saved state ----------
+      // The song list is saved in the browser and restored next time
+      const STATE_KEY = "setlistmetronome-state";
+      const valid = (s) => s && Array.isArray(s.presets) && s.presets.length;
+      function hydrate(s) {
+        const presets = s.presets.map(sanitize);
+        return { presets: presets, current: presets.some((p) => p.id === s.current) ? s.current : presets[0].id };
+      }
+      let store = (function () {
+        try { const s = JSON.parse(localStorage.getItem(STATE_KEY) || "null"); if (valid(s)) return hydrate(s); } catch (e) {}
+        const p = [newPreset({})];
+        return { presets: p, current: p[0].id };
+      })();
+      function saveState() {
+        try { localStorage.setItem(STATE_KEY, JSON.stringify(store)); }
+        catch (e) { $("saveState").textContent = t("foot.fail"); }
+      }
+      const cur = () => store.presets.find((p) => p.id === store.current) || store.presets[0];
+      function edit(fn, parts) { fn(cur()); saveState(); render(parts); }
+
+      // ---------- Sound (Web Audio API; every sound is synthesized, no sample files) ----------
+      let ctx = null, master = null, noiseBuf = null;
+      function ensureCtx() {
+        if (!ctx) {
+          ctx = new (window.AudioContext || window.webkitAudioContext)();
+          master = ctx.createGain(); master.gain.value = cur().vol;
+          const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -10; comp.ratio.value = 4;
+          master.connect(comp); comp.connect(ctx.destination);
+          noiseBuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+          const ch = noiseBuf.getChannelData(0); for (let i = 0; i < ch.length; i++) ch[i] = Math.random() * 2 - 1;
+        }
+        if (ctx.state === "suspended") ctx.resume();
+      }
+      function env(t0, peak, dur, dest) {
+        const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(Math.max(peak, 0.0002), t0 + 0.002);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+        g.connect(dest || master); return g;
+      }
+      function tone(type, f, t0, peak, dur, f2, dest) {
+        const o = ctx.createOscillator(); o.type = type; o.frequency.setValueAtTime(f, t0);
+        if (f2) o.frequency.exponentialRampToValueAtTime(f2, t0 + dur);
+        o.connect(env(t0, peak, dur, dest)); o.start(t0); o.stop(t0 + dur + 0.03);
+      }
+      function noise(t0, peak, dur, type, freq, q) {
+        const s = ctx.createBufferSource(); s.buffer = noiseBuf;
+        const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; if (q) f.Q.value = q;
+        s.connect(f); f.connect(env(t0, peak, dur)); s.start(t0, Math.random() * 0.5); s.stop(t0 + dur + 0.03);
+      }
+      const kick = (t0, g) => { tone("sine", 160, t0, 0.95 * g, 0.32, 42); tone("triangle", 90, t0, 0.3 * g, 0.08, 50); };
+      const snare = (t0, g) => { noise(t0, 0.55 * g, 0.17, "highpass", 1500); tone("triangle", 190, t0, 0.35 * g, 0.08, 150); };
+      const hat = (t0, g, open) => noise(t0, 0.32 * g, open ? 0.16 : 0.045, "highpass", 7500);
+      // level: 2 = accent, 1 = normal, "sub" = a note between the beats
+      function playSound(p, t0, level, beat) {
+        const sub = level === "sub", g = sub ? p.subVol : (level === 2 ? 1 : 0.72);
+        if (g <= 0.001) return;
+        const pitch = sub ? 0.78 : (level === 2 ? 1.3 : 1);
+        switch (p.sound) {
+          case "click": tone("square", 1500 * pitch, t0, 0.32 * g, 0.028); break;
+          case "beep": tone("sine", 880 * pitch * (level === 2 ? 1.15 : 1), t0, 0.6 * g, 0.09); break;
+          case "wood": tone("sine", 820 * pitch, t0, 0.75 * g, 0.07, 700 * pitch); noise(t0, 0.35 * g, 0.018, "bandpass", 2400 * pitch, 4); break;
+          case "cowbell": {
+            const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 2200 * pitch; bp.Q.value = 1.2; bp.connect(master);
+            tone("square", 560 * pitch, t0, 0.28 * g, 0.22, null, bp); tone("square", 835 * pitch, t0, 0.28 * g, 0.22, null, bp); break;
+          }
+          case "drums": {
+            if (sub) { hat(t0, g * 0.85); break; }
+            // Kick on the strong beats, snare on the backbeats; in 6/8 etc. per group of three
+            let kind;
+            if (isCompound(p.num, p.den)) kind = beat % 3 !== 0 ? "hat" : ((beat / 3) % 2 === 0 ? "kick" : "snare");
+            else kind = beat === 0 || (beat % 2 === 0 && p.num > 3) ? "kick" : (beat % 2 === 1 ? "snare" : "kick");
+            if (kind === "kick") kick(t0, g); else if (kind === "snare") snare(t0, g);
+            hat(t0, g, level === 2 && beat === 0); break;
+          }
+        }
+      }
+      const subPositions = (p) => (SUBS.find((x) => x.id === p.sub) || SUBS[0]).pos(p.swing);
+
+      // ---------- Scheduler ----------
+      // Notes are scheduled on the audio clock a little ahead of time. The timer runs in a worker
+      // (timer.js) because timers on the page itself slow down when the tab is in the background.
+      let playing = false, nextBeat = 0, beatPos = 0, visQ = [], wake = null, worker = null, intervalId = null;
+      try { worker = new Worker("timer.js"); worker.onmessage = tick; } catch (e) { worker = null; }
+      function tick() {
+        if (!playing) return;
+        const p = cur(), now = ctx.currentTime;
+        // After the page was paused (e.g. in the background), do not play all the missed notes at once
+        if (nextBeat < now - 0.05) nextBeat = now + 0.02;
+        while (nextBeat < now + 0.12) {
+          if (beatPos >= p.num) beatPos = 0;
+          const dur = 60 / p.bpm, acc = p.accents[beatPos];
+          subPositions(p).forEach(function (x, k) {
+            const tt = nextBeat + x * dur;
+            if (k === 0) { if (acc > 0) playSound(p, tt, acc, beatPos); }
+            else playSound(p, tt, "sub", beatPos);
+            visQ.push({ t: tt, b: beatPos, k: k });
+          });
+          nextBeat += dur; beatPos = (beatPos + 1) % p.num;
+        }
+      }
+      function requestWake() {
+        try { if (navigator.wakeLock) navigator.wakeLock.request("screen").then((w) => { wake = w; }).catch(() => {}); } catch (e) {}
+      }
+      function start() {
+        ensureCtx(); master.gain.value = cur().vol;
+        playing = true; beatPos = 0; visQ = []; nextBeat = ctx.currentTime + 0.08;
+        tick();
+        if (worker) worker.postMessage("start");
+        // Also tick from the page, in case the worker cannot start
+        intervalId = setInterval(tick, 25);
+        requestAnimationFrame(drawLoop);
+        requestWake();
+        renderPlay();
+      }
+      function stop() {
+        playing = false; visQ = [];
+        if (worker) worker.postMessage("stop");
+        clearInterval(intervalId);
+        try { if (wake) wake.release(); } catch (e) {}
+        wake = null;
+        setActive(-1, -1); renderPlay();
+      }
+      function restartBar() { if (playing) { beatPos = 0; visQ = []; nextBeat = ctx.currentTime + 0.06; } }
+      let activeB = -1, activeK = -1;
+      function drawLoop() {
+        if (!playing) return;
+        const now = ctx.currentTime; let e = null;
+        while (visQ.length && visQ[0].t <= now) e = visQ.shift();
+        if (e) setActive(e.b, e.k);
+        requestAnimationFrame(drawLoop);
+      }
+      function setActive(b, k) {
+        if (b === activeB && k === activeK) return;
+        document.querySelectorAll("#beats .beat").forEach(function (el, i) {
+          el.querySelector(".dot").classList.toggle("on", i === b && k === 0);
+          el.querySelectorAll(".tk").forEach((tk, j) => tk.classList.toggle("on", i === b && j === k));
+        });
+        activeB = b; activeK = k;
+      }
+      // The screen lock is released when the page is hidden; ask again when it comes back
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "visible" && playing) requestWake();
+      });
+
+      // ---------- UI ----------
+      const $ = (id) => document.getElementById(id);
+      function chip(label, pressed, on) {
+        const b = document.createElement("button"); b.type = "button"; b.className = "chip";
+        b.textContent = label; b.setAttribute("aria-pressed", pressed); b.onclick = on; return b;
+      }
+      const songName = (p) => p.name || t("untitled");
+      const metaText = (p) => `${p.bpm} · ${p.num}/${p.den} · ${t("sub." + p.sub)} · ${t("snd." + p.sound)}`;
+
+      function renderList() {
+        const box = $("songs"); box.innerHTML = "";
+        store.presets.forEach(function (p, i) {
+          const li = document.createElement("li");
+          const b = document.createElement("button"); b.type = "button"; b.className = "song";
+          b.setAttribute("aria-current", p.id === store.current);
+          const no = document.createElement("span"); no.className = "no"; no.textContent = i + 1;
+          const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = songName(p);
+          const mt = document.createElement("span"); mt.className = "mt"; mt.textContent = metaText(p);
+          b.append(no, nm, mt);
+          b.onclick = () => select(p.id);
+          li.appendChild(b); box.appendChild(li);
+        });
+        const idx = store.presets.findIndex((p) => p.id === store.current), n = store.presets.length;
+        $("count").textContent = n === 1 ? t("count.one") : t("count", { n: n });
+        $("upBtn").disabled = idx <= 0; $("downBtn").disabled = idx >= n - 1;
+        $("prevBtn").disabled = idx <= 0; $("nextBtn").disabled = idx >= n - 1;
+        resetDel();
+      }
+      function renderHead() {
+        const p = cur();
+        if (document.activeElement !== $("nameInput")) $("nameInput").value = p.name;
+        $("songNo").textContent = (store.presets.indexOf(p) + 1) + ".";
+      }
+      function renderTempo() {
+        const p = cur();
+        if (document.activeElement !== $("bpmInput")) $("bpmInput").value = p.bpm;
+        $("bpmSlider").value = p.bpm;
+        $("noteUnit").textContent = `${NOTE[p.den] || "♩"} = ${p.bpm}`;
+        $("term").textContent = tempoTerm(p.bpm);
+      }
+      function renderBeats() {
+        const p = cur(), pos = subPositions(p), box = $("beats"); box.innerHTML = "";
+        p.accents.forEach(function (a, i) {
+          const w = document.createElement("div"); w.className = "beat";
+          const d = document.createElement("button"); d.type = "button"; d.className = "dot"; d.dataset.acc = a; d.textContent = i + 1;
+          d.setAttribute("aria-label", t("acc.aria", { n: i + 1, state: t("acc." + a) }));
+          d.onclick = () => edit((q) => { q.accents[i] = (q.accents[i] + 2) % 3; }, ["beats", "list"]);
+          const tr = document.createElement("div"); tr.className = "ticks"; tr.setAttribute("aria-hidden", "true");
+          pos.forEach((x) => { const tk = document.createElement("i"); tk.className = "tk"; tk.style.left = (x * 100) + "%"; tr.appendChild(tk); });
+          w.append(d, tr); box.appendChild(w);
+        });
+        activeB = -1; activeK = -1;
+      }
+      function renderSettings() {
+        const p = cur(), di = DENS.indexOf(p.den);
+        $("numVal").textContent = p.num; $("denVal").textContent = p.den;
+        $("numDown").disabled = p.num <= 1; $("numUp").disabled = p.num >= 15;
+        $("denDown").disabled = di <= 0; $("denUp").disabled = di >= DENS.length - 1;
+        const s = $("subs"); s.innerHTML = "";
+        SUBS.forEach((x) => s.appendChild(chip(t("sub." + x.id), p.sub === x.id, () => edit((q) => { q.sub = x.id; }, ["settings", "beats", "list"]))));
+        $("swingGroup").hidden = !(SUBS.find((x) => x.id === p.sub) || {}).swing;
+        $("swing").value = Math.round(p.swing * 100); $("swingVal").textContent = Math.round(p.swing * 100) + "%";
+        const so = $("sounds"); so.innerHTML = "";
+        SOUNDS.forEach((id) => so.appendChild(chip(t("snd." + id), p.sound === id, () => { edit((q) => { q.sound = id; }, ["settings", "list"]); if (!playing) preview(); })));
+        $("soundHint").textContent = t("snd." + p.sound + ".hint");
+        $("vol").value = Math.round(p.vol * 100); $("volVal").textContent = Math.round(p.vol * 100) + "%";
+        $("subVol").value = Math.round(p.subVol * 100); $("subVolVal").textContent = Math.round(p.subVol * 100) + "%";
+      }
+      function renderPlay() {
+        $("playBtn").innerHTML = (playing
+          ? '<svg viewBox="0 0 18 18" aria-hidden="true"><rect x="3" y="3" width="12" height="12" rx="1.5" fill="currentColor"></rect></svg>'
+          : '<svg viewBox="0 0 18 18" aria-hidden="true"><path d="M5 2.5v13l11-6.5z" fill="currentColor"></path></svg>') +
+          `<span>${t(playing ? "stop" : "start")}</span>`;
+        $("playBtn").setAttribute("aria-pressed", playing);
+      }
+      // parts: which areas to redraw (all when omitted)
+      function render(parts) {
+        const all = !parts;
+        if (all || parts.includes("list")) { renderList(); renderHead(); }
+        if (all || parts.includes("tempo")) renderTempo();
+        if (all || parts.includes("beats")) renderBeats();
+        if (all || parts.includes("settings")) renderSettings();
+      }
+
+      function preview() {
+        try { ensureCtx(); master.gain.value = cur().vol; playSound(cur(), ctx.currentTime + 0.02, 2, 0); } catch (e) {}
+      }
+      function setBpm(v) { edit((q) => { q.bpm = clamp(Math.round(v), 20, 300); }, ["tempo", "list"]); }
+      function setMeter(n, d) {
+        edit((q) => { q.num = clamp(n, 1, 15); q.den = d; q.accents = defaultAccents(q.num, d); }, ["settings", "beats", "list", "tempo"]);
+        restartBar();
+      }
+      function select(id) {
+        if (id === store.current) return;
+        store.current = id; saveState(); render(); restartBar();
+        if (ctx) master.gain.value = cur().vol;
+      }
+      function move(delta) {
+        const j = store.presets.findIndex((p) => p.id === store.current) + delta;
+        if (j >= 0 && j < store.presets.length) select(store.presets[j].id);
+      }
+
+      // Tempo
+      document.querySelectorAll("[data-bpm]").forEach((b) => { b.onclick = () => setBpm(cur().bpm + +b.dataset.bpm); });
+      $("bpmSlider").oninput = (e) => setBpm(+e.target.value);
+      $("bpmInput").onchange = (e) => { const v = +e.target.value; if (v) setBpm(v); else renderTempo(); };
+      $("bpmInput").onblur = () => renderTempo();
+      $("bpmInput").onkeydown = (e) => { if (e.key === "Enter") e.target.blur(); };
+      let taps = [];
+      function tap() {
+        const now = performance.now();
+        if (taps.length && now - taps[taps.length - 1] > 2000) taps = [];
+        taps.push(now); if (taps.length > 6) taps.shift();
+        if (taps.length >= 2) setBpm(60000 / ((taps[taps.length - 1] - taps[0]) / (taps.length - 1)));
+        const b = $("tapBtn"); b.setAttribute("aria-pressed", "true"); setTimeout(() => b.setAttribute("aria-pressed", "false"), 90);
+      }
+      $("tapBtn").onclick = tap;
+      $("playBtn").onclick = () => (playing ? stop() : start());
+      // Time signature
+      $("numDown").onclick = () => setMeter(cur().num - 1, cur().den);
+      $("numUp").onclick = () => setMeter(cur().num + 1, cur().den);
+      const stepDen = (d) => { const i = DENS.indexOf(cur().den) + d; if (i >= 0 && i < DENS.length) setMeter(cur().num, DENS[i]); };
+      $("denDown").onclick = () => stepDen(-1);
+      $("denUp").onclick = () => stepDen(1);
+      // Rhythm and volume
+      $("swing").oninput = (e) => edit((q) => { q.swing = +e.target.value / 100; }, ["settings", "beats"]);
+      $("vol").oninput = (e) => { edit((q) => { q.vol = +e.target.value / 100; }, ["settings"]); if (ctx) master.gain.value = cur().vol; };
+      $("subVol").oninput = (e) => edit((q) => { q.subVol = +e.target.value / 100; }, ["settings"]);
+      // Title
+      $("nameInput").oninput = (e) => edit((q) => { q.name = e.target.value.slice(0, 60); }, ["list"]);
+      $("nameInput").onkeydown = (e) => { if (e.key === "Enter") e.target.blur(); };
+      // Song list
+      function insertAfterCurrent(p) {
+        const i = store.presets.findIndex((x) => x.id === store.current);
+        store.presets.splice(i + 1, 0, p); store.current = p.id; saveState(); render(); restartBar();
+      }
+      function addSong() {
+        insertAfterCurrent(newPreset({ name: t("newSong", { n: store.presets.length + 1 }) }));
+        $("nameInput").focus(); $("nameInput").select();
+      }
+      $("addBtn").onclick = addSong;
+      $("addBtn2").onclick = addSong;
+      $("dupBtn").onclick = () => {
+        const src = cur();
+        insertAfterCurrent(sanitize(Object.assign(JSON.parse(JSON.stringify(src)), { id: uid(), name: t("copyOf", { name: songName(src) }).slice(0, 60) })));
+      };
+      function shift(delta) {
+        const i = store.presets.findIndex((x) => x.id === store.current), j = i + delta;
+        if (j < 0 || j >= store.presets.length) return;
+        const a = store.presets; [a[i], a[j]] = [a[j], a[i]]; saveState(); render(["list"]);
+      }
+      $("upBtn").onclick = () => shift(-1);
+      $("downBtn").onclick = () => shift(1);
+      // Delete asks once more on the same button (no pop-up)
+      let delArmed = false, delTimer = null;
+      function resetDel() { delArmed = false; clearTimeout(delTimer); const b = $("delBtn"); b.textContent = t("del"); b.setAttribute("aria-pressed", "false"); }
+      $("delBtn").onclick = () => {
+        const b = $("delBtn");
+        if (!delArmed) {
+          delArmed = true; b.textContent = t("del.confirm"); b.setAttribute("aria-pressed", "true");
+          delTimer = setTimeout(resetDel, 3000); return;
+        }
+        const i = store.presets.findIndex((x) => x.id === store.current);
+        store.presets.splice(i, 1);
+        if (!store.presets.length) store.presets.push(newPreset({}));
+        store.current = store.presets[Math.min(i, store.presets.length - 1)].id;
+        saveState(); render(); restartBar();
+      };
+      $("prevBtn").onclick = () => move(-1);
+      $("nextBtn").onclick = () => move(1);
+
+      // Keyboard shortcuts (not while typing, or while a menu or dialog is open)
+      document.addEventListener("keydown", function (e) {
+        const el = e.target, tag = el && el.tagName;
+        if (e.ctrlKey || e.metaKey || e.altKey || e.defaultPrevented) return;
+        if (!$("settingsMenu").hidden || document.querySelector("dialog[open]")) return;
+        if ((tag === "INPUT" && el.type !== "range") || tag === "SELECT" || tag === "TEXTAREA") return;
+        if (e.key === " ") { if (tag === "BUTTON") return; e.preventDefault(); if (playing) stop(); else start(); }
+        else if (tag === "INPUT") return;
+        else if (e.key === "ArrowUp") { e.preventDefault(); setBpm(cur().bpm + (e.shiftKey ? 5 : 1)); }
+        else if (e.key === "ArrowDown") { e.preventDefault(); setBpm(cur().bpm - (e.shiftKey ? 5 : 1)); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); move(-1); }
+        else if (e.key === "ArrowRight") { e.preventDefault(); move(1); }
+        else if (e.key === "t" || e.key === "T") tap();
+      });
+
+      // ---------- Settings (gear) menu: How to use / Guides / Privacy / About ----------
+      const settingsBtn = $("settingsBtn");
+      const settingsMenu = $("settingsMenu");
+      const helpDlg = $("helpDlg");
+      const privacyDlg = $("privacyDlg");
+      const aboutDlg = $("aboutDlg");
+
+      function closeMenu(returnFocus) {
+        if (settingsMenu.hidden) return;
+        settingsMenu.hidden = true;
+        settingsBtn.setAttribute("aria-expanded", "false");
+        if (returnFocus) settingsBtn.focus();
+      }
+      function openMenu() {
+        const r = settingsBtn.getBoundingClientRect();
+        settingsMenu.style.top = r.bottom + 6 + "px";
+        settingsMenu.style.right = Math.max(8, document.documentElement.clientWidth - r.right) + "px";
+        settingsMenu.hidden = false;
+        settingsBtn.setAttribute("aria-expanded", "true");
+        $("menuHelp").focus();
+      }
+      settingsBtn.addEventListener("click", function () {
+        if (settingsMenu.hidden) openMenu(); else closeMenu(true);
+      });
+      document.addEventListener("click", function (e) {
+        if (!settingsMenu.hidden && !settingsMenu.contains(e.target) && !settingsBtn.contains(e.target)) closeMenu(false);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (settingsMenu.hidden) return;
+        if (e.key === "Escape") { closeMenu(true); return; }
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          const items = Array.prototype.slice.call(settingsMenu.querySelectorAll('[role="menuitem"]'));
+          const i = items.indexOf(document.activeElement);
+          const next = e.key === "ArrowDown" ? (i + 1) % items.length : (i - 1 + items.length) % items.length;
+          items[next].focus();
+        }
+      }, true);
+      window.addEventListener("resize", function () { closeMenu(false); });
+
+      // About: the license text is read from THIRD_PARTY_LICENSES.md
+      let licenseLoaded = false;
+      async function loadLicenses() {
+        if (licenseLoaded) return;
+        const el = $("licenseText");
+        el.textContent = t("loading");
+        try {
+          const res = await fetch("THIRD_PARTY_LICENSES.md");
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          // Hide the marker (HTML comment) used by the update script
+          el.textContent = (await res.text()).replace(/<!--[\s\S]*?-->\n?/g, "");
+          licenseLoaded = true;
+        } catch (e) {
+          el.textContent = t("err.license");
+        }
+      }
+
+      $("menuHelp").addEventListener("click", function () {
+        closeMenu(false);
+        if (typeof helpDlg.showModal === "function") helpDlg.showModal();
+      });
+      $("menuPrivacy").addEventListener("click", function () {
+        closeMenu(false);
+        if (typeof privacyDlg.showModal === "function") privacyDlg.showModal();
+      });
+      $("menuAbout").addEventListener("click", function () {
+        closeMenu(false);
+        loadLicenses();
+        if (typeof aboutDlg.showModal === "function") aboutDlg.showModal();
+      });
+
+      // Dialogs: close with the Close button or a click outside
+      [[helpDlg, "helpClose"], [privacyDlg, "privacyClose"], [aboutDlg, "aboutClose"]].forEach(function (pair) {
+        const dlg = pair[0];
+        $(pair[1]).addEventListener("click", function () { dlg.close(); });
+        dlg.addEventListener("click", function (e) {
+          const r = dlg.getBoundingClientRect();
+          if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dlg.close();
+        });
+      });
+
+      applyI18n();
+      render();
+      renderPlay();
+    })();
+  </script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
+</script>
+<!-- Cloudflare Web Analytics (page views; no cookies) -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5c53079cb9a64d819d1ca53e8533ca63"}'></script>
+</body>
+</html>
