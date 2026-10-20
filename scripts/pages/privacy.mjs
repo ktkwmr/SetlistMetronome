@@ -7,7 +7,7 @@ const CLOUDFLARE = "https://www.cloudflare.com/privacypolicy/";
 export default {
   slug: "privacy",
   schemaType: "WebPage",
-  modified: "2026-10-19",
+  modified: "2026-10-20",
   en: {
     title: "Privacy Policy",
     heading: "Privacy policy",
@@ -34,7 +34,7 @@ export default {
 <h2 id="storage">2. Data saved in your browser</h2>
 <p>The following data is saved in your browser's storage on your device. It is not sent to us.</p>
 <ul>
-  <li><b>Your song list:</b> the title, tempo (BPM), time signature, rhythm, swing, sound, accents, and volume of each song, and which song is selected, so you can continue next time.</li>
+  <li><b>Your setlist:</b> the song title, tempo (BPM), time signature, rhythm, swing, sound, accents, and volume of each song, and which song is selected, so you can continue next time.</li>
   <li><b>App files:</b> the pages and files of this site you have opened, so the app works offline.</li>
 </ul>
 <p>To delete this data, clear this site's data (site data, cookies, and storage for ktkwmr.com) in your browser settings.</p>
@@ -65,7 +65,7 @@ export default {
 
 <h2 id="changes">8. Changes to this policy</h2>
 <p>We may update this policy when the site changes, for example when we add or remove a service. The updated policy applies from the time it is posted on this page.</p>
-<p>Effective: October 19, 2026 (last updated: October 19, 2026)</p>
+<p>Effective: October 19, 2026 (last updated: October 20, 2026)</p>
 `,
   },
   ja: {
@@ -94,7 +94,7 @@ export default {
 <h2 id="storage">2. ブラウザに保存するデータ</h2>
 <p>次のデータを、お使いの端末のブラウザ内に保存します。運営者に送られることはありません。</p>
 <ul>
-  <li><b>曲リスト：</b>次に開いたときに続きから使えるよう、各曲のタイトル・テンポ（BPM）・拍子・ビート・ハネ具合・音色・アクセント・音量と、選択中の曲を保存します。</li>
+  <li><b>セットリスト：</b>次に開いたときに続きから使えるよう、各曲の曲名・テンポ（BPM）・拍子・ビート・ハネ具合・音色・アクセント・音量と、選択中の曲を保存します。</li>
   <li><b>アプリのファイル：</b>オフラインでも使えるよう、開いた本サイトのページやファイルを保存します。</li>
 </ul>
 <p>消したいときは、ブラウザの設定でこのサイト（ktkwmr.com）のデータ（サイトデータ・Cookie・ストレージ）を削除してください。</p>
@@ -125,7 +125,7 @@ export default {
 
 <h2 id="changes">8. 改定</h2>
 <p>サービスの追加・終了など本サイトの変更に合わせて、本ポリシーを改定することがあります。改定後のポリシーは、このページに掲載した時点から適用されます。</p>
-<p>制定日：2026 年 10 月 19 日（最終改定日：2026 年 10 月 19 日）</p>
+<p>制定日：2026 年 10 月 19 日（最終改定日：2026 年 10 月 20 日）</p>
 `,
   },
 };

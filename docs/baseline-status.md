@@ -39,8 +39,8 @@
 | 2-10 | バージョン番号なし・キャッシュ名固定 | ✅ | |
 | 2-11 | Cloudflare に接続・ルート設定 | ✅ | 2026-10-20 に接続して初回デプロイ（手動）。本番で全ページ 200、不明 URL は 404、CSP ヘッダーあり、ChordTransposer・GuitarChordFinder とドメイン直下に影響なしを確認 |
 | 2-12 | キャッシュ | ✅ | |
-| 2-13 | 自動デプロイの確認 | ⚠️ | 初回は手動デプロイ。この表を更新した PR のマージ後、`main` のコミットに「Workers Builds: setlistmetronome」のチェックが付くかで確認する |
-| 2-14 | 同じドメインの 2 つ目以降のアプリ | ⚠️ | 設定は済み。ChordTransposer の `robots.txt` に Sitemap 行を足す PR を出した（マージ待ち）。§0 の A「3 つ以上ならドメイン直下を別リポジトリに」は未判断 |
+| 2-13 | 自動デプロイの確認 | ✅ | 2026-10-20、#1 のマージで `main` のコミットに「Workers Builds: setlistmetronome」が付いて成功し、本番に反映されることを確認 |
+| 2-14 | 同じドメインの 2 つ目以降のアプリ | ✅ | ChordTransposer の `robots.txt` に Sitemap 行を追加済み（ktkwmr/ChordTransposer#20）。§0 の A「3 つ以上ならドメイン直下を別リポジトリに」はトップページを作る形で進める予定（別セッション） |
 
 ## 3. PWA
 
@@ -59,10 +59,10 @@
 
 | # | 項目 | 状態 | メモ |
 |---|---|---|---|
-| 4-1 | I18N と data-i18n | ✅ | JS で作る文言（曲リスト・ビート・音色・ボタン）も `t()` |
+| 4-1 | I18N と data-i18n | ✅ | JS で作る文言（セットリスト・ビート・音色・ボタン）も `t()` |
 | 4-2 | 言語の決め方 | ✅ | |
 | 4-3 | `/ja/` の自動生成 | ✅ | |
-| 4-4 | 日本語の検索用タイトル・説明 | 👤 待ち | Claude の案を `scripts/build-ja.mjs` 冒頭に入れた。確認してほしい |
+| 4-4 | 日本語の検索用タイトル・説明 | ✅ | `scripts/build-ja.mjs` 冒頭。2026-10-20 に確認済み |
 | 4-5 | 和文の lang 固定 | — | 曲名はユーザーの入力のみ |
 | 4-6 | 3 言語目 | — | |
 
@@ -75,7 +75,7 @@
 | 5-3 | OGP | ✅ | |
 | 5-4 | og-image.png | ✅ | `scripts/og-image.html` |
 | 5-5 | JSON-LD | ✅ | |
-| 5-6 | robots.txt / sitemap.xml | ⚠️ | sitemap は `/setlistmetronome/sitemap.xml` に生成。ChordTransposer の `robots.txt` に Sitemap 行を足す PR を出した（マージ待ち） |
+| 5-6 | robots.txt / sitemap.xml | ✅ | sitemap は `/setlistmetronome/sitemap.xml` に生成。ChordTransposer の `robots.txt` に Sitemap 行を追加済み（#20） |
 | 5-7 | `<h1>` | ✅ | ツールバーのアプリ名 |
 | 5-8 | 画面に見える説明文 | ✅ | 冒頭の説明（無料・登録不要・オフライン） |
 | 5-9 | リダイレクト | ✅ | |
@@ -92,7 +92,7 @@
 
 | # | 項目 | 状態 | メモ |
 |---|---|---|---|
-| 7-1 | アプリ内のプライバシー | ✅ | 曲リストの保存について記載 |
+| 7-1 | アプリ内のプライバシー | ✅ | セットリストの保存について記載 |
 | 7-2 | プライバシーポリシー（日英） | ✅ | 制定日 2026-10-19 |
 | 7-3 | 運営者情報（日英） | ✅ | |
 | 7-4 | 問い合わせ窓口 | ⚠️ | GitHub Issues のみ（メール未設置） |
@@ -116,7 +116,7 @@
 | 9-1 | ⚙ 設定メニュー | ✅ | 使い方 / ガイド・記事 / プライバシー / このアプリについて |
 | 9-2 | 使い方ダイアログ | ✅ | 最後に使い方ガイドへのリンク |
 | 9-3 | 状態の保存・復元 | ✅ | `setlistmetronome-state`。`sanitize()` で検証してから復元。再生状態は保存しない（開いたときに鳴り出さない） |
-| 9-4 | スマホ対応 | ✅ | スクロール型。スマホではメトロノームが上・曲リストが下。safe-area 対応、390px で横スクロールなし |
+| 9-4 | スマホ対応 | ✅ | スクロール型。スマホではメトロノームが上・セットリストが下。safe-area 対応、390px で横スクロールなし |
 | 9-5〜9-7 | ファイル・印刷・保存 | — | |
 | 9-8 | アクセシビリティ | ✅ | |
 | 9-9 | 自動テスト | ⚠️ | 記事とアプリの規則の一致は `check-metronome.mjs` で検査。スケジューラなどの単体テストはなし |
@@ -131,7 +131,7 @@
 | 10-4 | 画面写真 | ✅ | `scripts/render-guide-images.mjs`（日英・PC・スマホ） |
 | 10-5 | 導線 | ✅ | 記事末尾の「アプリを開く」、フッターに全記事、日英リンク、アプリの設定メニューと使い方から |
 | 10-6 | スマホ幅のレビュー | ✅ | 390px で全 14 ページ、横スクロールなし |
-| 10-7 | 内容の人間確認 | 👤 待ち | 確認点は `docs/article-review.md` |
+| 10-7 | 内容の人間確認 | ✅ | 2026-10-20、記事 5 本の初版を本番で確認。以後も記事の変更は PR のプレビューで確認 |
 
 ## 11. アクセス解析
 
@@ -159,6 +159,8 @@
 |---|---|---|---|
 | 13-1 | 本番デプロイ | ✅ | 2026-10-20 |
 | 13-4 | GitHub の About | ✅ | Description・Website・Topics を gh CLI で設定 |
+| 13-2, 13-3 | 本番の動作確認・iPhone 実機 | ✅ | 2026-10-20 |
+| 14-1, 14-2 | Search Console（サイトマップ送信） | ✅ | 2026-10-20 |
 
 13・14 のその他は 👤 待ち（下の表）。15（AdSense）は未着手。
 
@@ -166,12 +168,6 @@
 
 | # | 内容 | 手順 | 終わったかの確かめ方 |
 |---|---|---|---|
-| 1 | 日本語の検索用タイトル・説明を確認（4-4） | `scripts/build-ja.mjs` 冒頭の `TITLE`・`DESCRIPTION` を読む | 直すところがない／Claude に修正を依頼 |
-| 2 | 記事の内容確認（10-7） | `docs/article-review.md` の観点で、PR のプレビュー URL か本番で読む | 直すところがない／Claude に修正を依頼 |
-| 3 | 本番の動作確認（13-2・13-3） | 日英・スマホ・PC で開く。iPhone で音が出るか、ホーム画面に追加して起動、機内モードで開けるか | すべて動く |
-| 4 | 解析の送信確認（11-4） | 本番で DevTools → Network を `cloudflareinsights` で絞る | `beacon.min.js` が 200、`rum` が 204 |
-| 5 | Search Console（14-2） | サイトマップ `https://ktkwmr.com/setlistmetronome/sitemap.xml` を送信、URL 検査で `/setlistmetronome/` と `/setlistmetronome/ja/` の登録をリクエスト | 送信済みサイトマップに表示（検出 URL 16） |
-| 6 | ポリシー内の外部リンク（7-7） | プライバシーポリシーの Cloudflare へのリンクを開く | ページが開く |
-| 7 | ドメイン直下の分離を判断（§0 の A） | アプリが 3 つになったので、ドメイン直下（トップ・robots・ads.txt）を小さなリポジトリに分けるか決める | 方針が決まる |
-| 8 | ChordTransposer の robots.txt の PR をマージ（5-6） | PR を開き、Cloudflare のプレビュービルドが成功していれば squash マージ | https://ktkwmr.com/robots.txt に `Sitemap: https://ktkwmr.com/setlistmetronome/sitemap.xml` がある |
-| 9 | Claude の GitHub App にリポジトリを許可（1-4） | https://github.com/settings/installations → Claude → Configure → Repository access に `SetlistMetronome` を追加（クラウドのセッションで使うとき） | 一覧にリポジトリが出る |
+| 1 | 解析の送信確認（11-4） | 本番で DevTools → Network を `cloudflareinsights` で絞る | `beacon.min.js` が 200、`rum` が 204 |
+| 2 | ポリシー内の外部リンク（7-7） | プライバシーポリシーの Cloudflare へのリンクを開く | ページが開く |
+| 3 | Claude の GitHub App にリポジトリを許可（1-4） | https://github.com/settings/installations → Claude → Configure → Repository access に `SetlistMetronome` を追加（クラウドのセッションで使うとき） | 一覧にリポジトリが出る |

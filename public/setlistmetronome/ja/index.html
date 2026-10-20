@@ -46,7 +46,7 @@
   }
   </script>
   <style>
-    /* Layout: same as ktkwmr.com/chordtransposer and /guitarchordfinder. White toolbar, grey canvas with white panels (left: song list / right: metronome) */
+    /* Layout: same as ktkwmr.com/chordtransposer and /guitarchordfinder. White toolbar, grey canvas with white panels (left: setlist / right: metronome) */
     :root {
       color-scheme: light;
       --ink: #000; --paper: #fff; --muted: #525252; --subtle: #737373; --line: #e5e5e5; --line-strong: #d4d4d4;
@@ -95,7 +95,9 @@
     .panel.out { border-color: transparent; box-shadow: var(--paper-shadow); }
     .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 8px 12px; min-height: 40px; padding: 0 6px 0 16px; border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 700; flex-wrap: wrap; }
     .panel-body { padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 18px; }
-    .intro { margin: 0; color: var(--muted); font-size: 13px; max-width: 72ch; }
+    .intro { margin: 0; color: var(--muted); font-size: 13px; }
+    /* On a computer each sentence gets its own line; on a phone the text just wraps */
+    @media (min-width: 901px) { .intro span { display: block; } }
     .foot { color: var(--subtle); font-size: 12px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .foot svg { flex: 0 0 auto; }
 
@@ -121,11 +123,11 @@
     .stepper .num { font-family: var(--mono); font-weight: 700; font-size: 15px; min-width: 2.4ch; text-align: center; }
     .slash { font-family: var(--mono); font-weight: 700; color: var(--subtle); }
 
-    /* Song list */
+    /* Setlist */
     .songs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
     .song { appearance: none; width: 100%; text-align: left; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--paper); color: var(--ink); padding: 8px 12px; cursor: pointer; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 10px; align-items: center; transition: background-color .12s, border-color .12s; }
     .song .no { font-family: var(--mono); font-size: 12px; color: var(--subtle); grid-row: span 2; min-width: 2ch; text-align: right; }
-    .song .nm { font-weight: 700; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .song .nm { font-weight: 700; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-height: 1.6em; }
     .song .mt { font-family: var(--mono); font-size: 11px; color: var(--subtle); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .song[aria-current="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
     .song[aria-current="true"] .no, .song[aria-current="true"] .mt { color: var(--line-strong); }
@@ -141,6 +143,14 @@
     .name-input:hover { border-color: var(--line-strong); }
     .name-input:focus { border-color: var(--ink); outline: none; }
     .name-input::placeholder { color: var(--subtle); font-weight: 600; }
+    /* Phones and tablets: the title gets a full row with a visible box, the buttons go to the next row */
+    @media (max-width: 900px) {
+      .out .panel-head { padding: 8px 12px; gap: 8px; }
+      .name-wrap { flex: 1 1 100%; }
+      .name-input { height: 40px; margin-left: 0; border-color: var(--line-strong); background: var(--paper); }
+      .nav { flex: 1 1 100%; padding: 0; }
+      .nav .chip { flex: 1 1 auto; }
+    }
     .nav { display: flex; gap: 4px; padding: 4px 0; flex-wrap: wrap; }
     .display { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 22px 16px 20px; border-bottom: 1px solid var(--line); }
     .bpm-row { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: nowrap; }
@@ -229,10 +239,10 @@
   </header>
 
   <main class="canvas">
-    <p class="intro" data-i18n="intro">曲ごとにテンポ・拍子・リズム・音色を保存しておけるメトロノームです。左のリストで曲を選ぶと、その設定に切り替わります。変更は自動で保存され、次に開いたときもそのまま残ります。無料・登録不要で、オフラインでも使えます。</p>
+    <p class="intro" data-i18n-html="intro"><span>曲ごとにテンポ・拍子・リズム・音色を保存しておけるメトロノームです。</span> <span>セットリストで曲を選ぶと、その設定に切り替わります。</span> <span>変更は自動で保存され、次に開いたときもそのまま残ります。</span> <span>無料・登録不要で、オフラインでも使えます。</span></p>
     <div class="layout">
-      <aside class="panel" aria-label="曲リスト" data-i18n-attr="aria-label:list">
-        <div class="panel-head"><span data-i18n="list">曲リスト</span><span class="count" id="count"></span></div>
+      <aside class="panel" aria-label="セットリスト" data-i18n-attr="aria-label:list">
+        <div class="panel-head"><span data-i18n="list">セットリスト</span><span class="count" id="count"></span></div>
         <div class="panel-body">
           <ol class="songs" id="songs"></ol>
           <div class="list-actions">
@@ -249,7 +259,7 @@
         <div class="panel-head">
           <div class="name-wrap">
             <label for="nameInput" class="song-no" id="songNo"></label>
-            <input id="nameInput" class="name-input" type="text" maxlength="60" autocomplete="off" placeholder="タイトルを入力" aria-label="曲名" data-i18n-attr="placeholder:name.ph;aria-label:name">
+            <input id="nameInput" class="name-input" type="text" maxlength="60" autocomplete="off" placeholder="曲名を入力" aria-label="曲名" data-i18n-attr="placeholder:name.ph;aria-label:name">
           </div>
           <div class="nav">
             <button type="button" class="chip" id="prevBtn" aria-label="前の曲" data-i18n="prev" data-i18n-attr="aria-label:prev.aria">← 前</button>
@@ -316,13 +326,13 @@
         <p class="keys" data-i18n-html="keys"><kbd>Space</kbd> スタート/ストップ　<kbd>↑</kbd><kbd>↓</kbd> BPM ±1（<kbd>Shift</kbd>で±5）　<kbd>←</kbd><kbd>→</kbd> 前/次の曲　<kbd>T</kbd> タップ</p>
       </section>
     </div>
-    <footer class="foot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg><span id="saveState" data-i18n="foot">曲リストはこのブラウザに自動で保存され、閉じても残ります。アカウント登録や通信は不要です。</span></footer>
+    <footer class="foot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg><span id="saveState" data-i18n="foot">セットリストはこのブラウザに自動で保存され、閉じても残ります。アカウント登録や通信は不要です。</span></footer>
   </main>
 
   <dialog class="msg help" id="helpDlg" aria-labelledby="helpTitle">
     <h2 id="helpTitle" data-i18n="menu.help">使い方</h2>
     <div class="help-body">
-      <ol class="help-list" data-i18n-html="help.body"><li><b>曲を追加</b> – 「＋ 曲の追加」を押してタイトルを入力します。曲ごとに設定が保存されます。</li>
+      <ol class="help-list" data-i18n-html="help.body"><li><b>曲を追加</b> – 「＋ 曲の追加」を押して、上の欄に曲名を入力します。曲ごとに設定が保存されます。</li>
         <li><b>テンポ</b> – −5／−1／+1／+5、スライダー、数字の直接入力のほか、曲に合わせて「タップ」を押しても設定できます。</li>
         <li><b>拍子</b> – 分子と分母をそれぞれ − と + で設定します。BPM は分母の音符 1 つあたりの数です。</li>
         <li><b>ビートと音色</b> – 4ビート・8ビート・16ビート・3連符・シャッフルと、音色を選びます。ドラムはキック・スネア・ハイハットの簡単なパターンを鳴らします。</li>
@@ -339,7 +349,7 @@
     <h2 id="privacyTitle" data-i18n="menu.privacy">プライバシー</h2>
     <div class="help-body">
       <ul class="help-list" data-i18n-html="privacy.body"><li><b>すべて端末の中で動きます</b> – 音はブラウザの中だけで作ります。曲や設定がサーバーに送られることはありません。アカウント登録・Cookie・広告はありません。</li>
-        <li><b>ブラウザに保存するデータ</b> – 次に開いたときにも使えるよう、曲リスト（タイトル・テンポ・拍子・ビート・音色・アクセント・音量）をブラウザ内に保存します。オフラインで使えるよう、アプリ本体も保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>
+        <li><b>ブラウザに保存するデータ</b> – 次に開いたときにも使えるよう、セットリスト（曲名・テンポ・拍子・ビート・音色・アクセント・音量）をブラウザ内に保存します。オフラインで使えるよう、アプリ本体も保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>
         <li><b>サーバーのログと閲覧数</b> – 本サイトは Cloudflare で配信しています。運用とセキュリティのため、一般的なアクセスログ（IP アドレス・日時・アクセスしたページなど）が記録されます。Cloudflare Web Analytics で、Cookie を使わずにページの閲覧数（ページの URL・参照元・ブラウザの情報・表示速度）を集計しています。</li>
         <li><b>お問い合わせ</b> – ご質問・ご意見は <a href="https://github.com/ktkwmr/SetlistMetronome/issues" target="_blank" rel="noopener">GitHub の Issues</a> へ。</li>
         <li><b>詳しくは</b> – <a href="/setlistmetronome/ja/privacy/">プライバシーポリシー</a>と<a href="/setlistmetronome/ja/about/">運営者情報</a>をご覧ください。</li></ul>
@@ -372,8 +382,8 @@
       const I18N = {
         en: {
           "settings": "Settings",
-          "intro": "A metronome that keeps the tempo, time signature, rhythm, and sound for each song. Pick a song in the list to switch to its settings. Changes are saved automatically and are still there next time. Free, no sign-up, and it works offline.",
-          "list": "Song list",
+          "intro": "<span>A metronome that keeps the tempo, time signature, rhythm, and sound for each song.</span> <span>Pick a song in the setlist to switch to its settings.</span> <span>Changes are saved automatically and are still there next time.</span> <span>Free, no sign-up, and it works offline.</span>",
+          "list": "Setlist",
           "metronome": "Metronome",
           "count": "{n} songs",
           "count.one": "1 song",
@@ -384,9 +394,7 @@
           "del": "Delete",
           "del.confirm": "Really delete?",
           "name": "Song title",
-          "name.ph": "Enter a title",
-          "untitled": "Untitled",
-          "newSong": "Song {n}",
+          "name.ph": "Enter the song title",
           "copyOf": "{name} (copy)",
           "prev": "← Prev",
           "next": "Next →",
@@ -434,16 +442,16 @@
           "vol": "Volume",
           "subVol": "Volume of the in-between notes",
           "keys": "<kbd>Space</kbd> start / stop　<kbd>↑</kbd><kbd>↓</kbd> BPM ±1 (<kbd>Shift</kbd> ±5)　<kbd>←</kbd><kbd>→</kbd> previous / next song　<kbd>T</kbd> tap",
-          "foot": "Your songs are saved in this browser and kept when you close it. No account or data upload.",
-          "foot.fail": "This browser cannot save your songs (check private browsing or blocked site data).",
+          "foot": "Your setlist is saved in this browser and kept when you close it. No account or data upload.",
+          "foot.fail": "This browser cannot save your setlist (check private browsing or blocked site data).",
           "menu.help": "How to use",
           "menu.guide": "Guides & articles",
           "menu.privacy": "Privacy",
           "menu.about": "About",
           "guide.url": "/setlistmetronome/guide/",
           "help.more": "Read the full guide →",
-          "help.body": "<li><b>Add songs</b> – Tap “+ Add song” and type the title. Each song keeps its own settings.</li>\n        <li><b>Set the tempo</b> – Use −5 / −1 / +1 / +5, the slider, type the number, or tap “Tap” in time with the music.</li>\n        <li><b>Time signature</b> – Set the top and bottom numbers with − and +. BPM counts the bottom note value.</li>\n        <li><b>Rhythm and sound</b> – Choose 4 beat, 8ths, 16ths, triplets, or a shuffle, and a sound. Drums play a simple kick, snare, and hi-hat pattern.</li>\n        <li><b>Accents</b> – Tap a beat circle to switch it between accent, normal, and silent.</li>\n        <li><b>Practice the setlist</b> – Use “← Prev” and “Next →” to move to the next song. The metronome keeps playing at the new song's settings.</li>",
-          "privacy.body": "<li><b>Everything stays on your device</b> – The sound is made only in your browser. Your songs and settings are never sent to a server. This app has no accounts, cookies, or ads.</li>\n        <li><b>Data saved in your browser</b> – Your song list (titles, tempo, time signature, rhythm, sound, accents, and volume) is saved in your browser's storage so it is there next time. To work offline, the app is saved there too. You can delete them by clearing this site's data in your browser settings.</li>\n        <li><b>Server logs and page views</b> – This site is hosted on Cloudflare. Standard access logs (such as IP address, time, and the requested page) are kept for operation and security. Cloudflare Web Analytics counts page views without cookies (the page URL, referrer, browser information, and page load time).</li>\n        <li><b>Contact</b> – Questions and feedback: <a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">GitHub Issues</a>.</li>\n        <li><b>Full policy</b> – See the <a href=\"/setlistmetronome/privacy/\">privacy policy</a> and <a href=\"/setlistmetronome/about/\">about this site</a>.</li>",
+          "help.body": "<li><b>Add songs</b> – Tap “+ Add song” and type the song title in the box at the top. Each song keeps its own settings.</li>\n        <li><b>Set the tempo</b> – Use −5 / −1 / +1 / +5, the slider, type the number, or tap “Tap” in time with the music.</li>\n        <li><b>Time signature</b> – Set the top and bottom numbers with − and +. BPM counts the bottom note value.</li>\n        <li><b>Rhythm and sound</b> – Choose 4 beat, 8ths, 16ths, triplets, or a shuffle, and a sound. Drums play a simple kick, snare, and hi-hat pattern.</li>\n        <li><b>Accents</b> – Tap a beat circle to switch it between accent, normal, and silent.</li>\n        <li><b>Practice the setlist</b> – Use “← Prev” and “Next →” to move to the next song. The metronome keeps playing at the new song's settings.</li>",
+          "privacy.body": "<li><b>Everything stays on your device</b> – The sound is made only in your browser. Your songs and settings are never sent to a server. This app has no accounts, cookies, or ads.</li>\n        <li><b>Data saved in your browser</b> – Your setlist (song titles, tempo, time signature, rhythm, sound, accents, and volume) is saved in your browser's storage so it is there next time. To work offline, the app is saved there too. You can delete them by clearing this site's data in your browser settings.</li>\n        <li><b>Server logs and page views</b> – This site is hosted on Cloudflare. Standard access logs (such as IP address, time, and the requested page) are kept for operation and security. Cloudflare Web Analytics counts page views without cookies (the page URL, referrer, browser information, and page load time).</li>\n        <li><b>Contact</b> – Questions and feedback: <a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">GitHub Issues</a>.</li>\n        <li><b>Full policy</b> – See the <a href=\"/setlistmetronome/privacy/\">privacy policy</a> and <a href=\"/setlistmetronome/about/\">about this site</a>.</li>",
           "about.license": "© 2026 ktkwmr · Licensed under the <a href=\"https://github.com/ktkwmr/SetlistMetronome/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">MIT License</a> · <a href=\"/setlistmetronome/about/\">About this site</a>",
           "close": "Close",
           "loading": "Loading…",
@@ -451,8 +459,8 @@
         },
         ja: {
           "settings": "設定",
-          "intro": "曲ごとにテンポ・拍子・リズム・音色を保存しておけるメトロノームです。左のリストで曲を選ぶと、その設定に切り替わります。変更は自動で保存され、次に開いたときもそのまま残ります。無料・登録不要で、オフラインでも使えます。",
-          "list": "曲リスト",
+          "intro": "<span>曲ごとにテンポ・拍子・リズム・音色を保存しておけるメトロノームです。</span> <span>セットリストで曲を選ぶと、その設定に切り替わります。</span> <span>変更は自動で保存され、次に開いたときもそのまま残ります。</span> <span>無料・登録不要で、オフラインでも使えます。</span>",
+          "list": "セットリスト",
           "metronome": "メトロノーム",
           "count": "{n}曲",
           "count.one": "1曲",
@@ -463,9 +471,7 @@
           "del": "削除",
           "del.confirm": "本当に削除？",
           "name": "曲名",
-          "name.ph": "タイトルを入力",
-          "untitled": "名称未設定",
-          "newSong": "曲 {n}",
+          "name.ph": "曲名を入力",
           "copyOf": "{name} のコピー",
           "prev": "← 前",
           "next": "次 →",
@@ -513,16 +519,16 @@
           "vol": "音量",
           "subVol": "細かい音（裏拍など）の音量",
           "keys": "<kbd>Space</kbd> スタート/ストップ　<kbd>↑</kbd><kbd>↓</kbd> BPM ±1（<kbd>Shift</kbd>で±5）　<kbd>←</kbd><kbd>→</kbd> 前/次の曲　<kbd>T</kbd> タップ",
-          "foot": "曲リストはこのブラウザに自動で保存され、閉じても残ります。アカウント登録や通信は不要です。",
-          "foot.fail": "このブラウザでは曲リストを保存できません（プライベートモードやサイトデータのブロックを確認してください）。",
+          "foot": "セットリストはこのブラウザに自動で保存され、閉じても残ります。アカウント登録や通信は不要です。",
+          "foot.fail": "このブラウザではセットリストを保存できません（プライベートモードやサイトデータのブロックを確認してください）。",
           "menu.help": "使い方",
           "menu.guide": "ガイド・記事",
           "menu.privacy": "プライバシー",
           "menu.about": "このアプリについて",
           "guide.url": "/setlistmetronome/ja/guide/",
           "help.more": "詳しい使い方ガイドを読む →",
-          "help.body": "<li><b>曲を追加</b> – 「＋ 曲の追加」を押してタイトルを入力します。曲ごとに設定が保存されます。</li>\n        <li><b>テンポ</b> – −5／−1／+1／+5、スライダー、数字の直接入力のほか、曲に合わせて「タップ」を押しても設定できます。</li>\n        <li><b>拍子</b> – 分子と分母をそれぞれ − と + で設定します。BPM は分母の音符 1 つあたりの数です。</li>\n        <li><b>ビートと音色</b> – 4ビート・8ビート・16ビート・3連符・シャッフルと、音色を選びます。ドラムはキック・スネア・ハイハットの簡単なパターンを鳴らします。</li>\n        <li><b>アクセント</b> – 拍の丸を押すと、強拍・普通・鳴らさないが切り替わります。</li>\n        <li><b>セットリストの練習</b> – 「← 前」「次 →」で曲を移ります。再生中なら、そのまま次の曲の設定で鳴り続けます。</li>",
-          "privacy.body": "<li><b>すべて端末の中で動きます</b> – 音はブラウザの中だけで作ります。曲や設定がサーバーに送られることはありません。アカウント登録・Cookie・広告はありません。</li>\n        <li><b>ブラウザに保存するデータ</b> – 次に開いたときにも使えるよう、曲リスト（タイトル・テンポ・拍子・ビート・音色・アクセント・音量）をブラウザ内に保存します。オフラインで使えるよう、アプリ本体も保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>\n        <li><b>サーバーのログと閲覧数</b> – 本サイトは Cloudflare で配信しています。運用とセキュリティのため、一般的なアクセスログ（IP アドレス・日時・アクセスしたページなど）が記録されます。Cloudflare Web Analytics で、Cookie を使わずにページの閲覧数（ページの URL・参照元・ブラウザの情報・表示速度）を集計しています。</li>\n        <li><b>お問い合わせ</b> – ご質問・ご意見は <a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">GitHub の Issues</a> へ。</li>\n        <li><b>詳しくは</b> – <a href=\"/setlistmetronome/ja/privacy/\">プライバシーポリシー</a>と<a href=\"/setlistmetronome/ja/about/\">運営者情報</a>をご覧ください。</li>",
+          "help.body": "<li><b>曲を追加</b> – 「＋ 曲の追加」を押して、上の欄に曲名を入力します。曲ごとに設定が保存されます。</li>\n        <li><b>テンポ</b> – −5／−1／+1／+5、スライダー、数字の直接入力のほか、曲に合わせて「タップ」を押しても設定できます。</li>\n        <li><b>拍子</b> – 分子と分母をそれぞれ − と + で設定します。BPM は分母の音符 1 つあたりの数です。</li>\n        <li><b>ビートと音色</b> – 4ビート・8ビート・16ビート・3連符・シャッフルと、音色を選びます。ドラムはキック・スネア・ハイハットの簡単なパターンを鳴らします。</li>\n        <li><b>アクセント</b> – 拍の丸を押すと、強拍・普通・鳴らさないが切り替わります。</li>\n        <li><b>セットリストの練習</b> – 「← 前」「次 →」で曲を移ります。再生中なら、そのまま次の曲の設定で鳴り続けます。</li>",
+          "privacy.body": "<li><b>すべて端末の中で動きます</b> – 音はブラウザの中だけで作ります。曲や設定がサーバーに送られることはありません。アカウント登録・Cookie・広告はありません。</li>\n        <li><b>ブラウザに保存するデータ</b> – 次に開いたときにも使えるよう、セットリスト（曲名・テンポ・拍子・ビート・音色・アクセント・音量）をブラウザ内に保存します。オフラインで使えるよう、アプリ本体も保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>\n        <li><b>サーバーのログと閲覧数</b> – 本サイトは Cloudflare で配信しています。運用とセキュリティのため、一般的なアクセスログ（IP アドレス・日時・アクセスしたページなど）が記録されます。Cloudflare Web Analytics で、Cookie を使わずにページの閲覧数（ページの URL・参照元・ブラウザの情報・表示速度）を集計しています。</li>\n        <li><b>お問い合わせ</b> – ご質問・ご意見は <a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">GitHub の Issues</a> へ。</li>\n        <li><b>詳しくは</b> – <a href=\"/setlistmetronome/ja/privacy/\">プライバシーポリシー</a>と<a href=\"/setlistmetronome/ja/about/\">運営者情報</a>をご覧ください。</li>",
           "about.license": "© 2026 ktkwmr · <a href=\"https://github.com/ktkwmr/SetlistMetronome/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">MIT ライセンス</a> · <a href=\"/setlistmetronome/ja/about/\">運営者情報</a>",
           "close": "閉じる",
           "loading": "読み込み中…",
@@ -612,10 +618,11 @@
         p.accents = Array.isArray(o.accents) && o.accents.length === p.num ? o.accents.map((x) => [0, 1, 2].includes(x) ? x : 1) : defaultAccents(p.num, p.den);
         return p;
       }
-      const newPreset = (o) => sanitize(Object.assign({ name: t("newSong", { n: 1 }) }, o));
+      // New songs start without a title; the title field then shows its hint
+      const newPreset = (o) => sanitize(Object.assign({ name: "" }, o));
 
       // ---------- Saved state ----------
-      // The song list is saved in the browser and restored next time
+      // The setlist is saved in the browser and restored next time
       const STATE_KEY = "setlistmetronome-state";
       const valid = (s) => s && Array.isArray(s.presets) && s.presets.length;
       function hydrate(s) {
@@ -764,7 +771,6 @@
         const b = document.createElement("button"); b.type = "button"; b.className = "chip";
         b.textContent = label; b.setAttribute("aria-pressed", pressed); b.onclick = on; return b;
       }
-      const songName = (p) => p.name || t("untitled");
       const metaText = (p) => `${p.bpm} · ${p.num}/${p.den} · ${t("sub." + p.sub)} · ${t("snd." + p.sound)}`;
 
       function renderList() {
@@ -774,7 +780,7 @@
           const b = document.createElement("button"); b.type = "button"; b.className = "song";
           b.setAttribute("aria-current", p.id === store.current);
           const no = document.createElement("span"); no.className = "no"; no.textContent = i + 1;
-          const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = songName(p);
+          const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = p.name;
           const mt = document.createElement("span"); mt.className = "mt"; mt.textContent = metaText(p);
           b.append(no, nm, mt);
           b.onclick = () => select(p.id);
@@ -889,20 +895,20 @@
       // Title
       $("nameInput").oninput = (e) => edit((q) => { q.name = e.target.value.slice(0, 60); }, ["list"]);
       $("nameInput").onkeydown = (e) => { if (e.key === "Enter") e.target.blur(); };
-      // Song list
+      // Setlist
       function insertAfterCurrent(p) {
         const i = store.presets.findIndex((x) => x.id === store.current);
         store.presets.splice(i + 1, 0, p); store.current = p.id; saveState(); render(); restartBar();
       }
       function addSong() {
-        insertAfterCurrent(newPreset({ name: t("newSong", { n: store.presets.length + 1 }) }));
+        insertAfterCurrent(newPreset({}));
         $("nameInput").focus(); $("nameInput").select();
       }
       $("addBtn").onclick = addSong;
       $("addBtn2").onclick = addSong;
       $("dupBtn").onclick = () => {
         const src = cur();
-        insertAfterCurrent(sanitize(Object.assign(JSON.parse(JSON.stringify(src)), { id: uid(), name: t("copyOf", { name: songName(src) }).slice(0, 60) })));
+        insertAfterCurrent(sanitize(Object.assign(JSON.parse(JSON.stringify(src)), { id: uid(), name: src.name ? t("copyOf", { name: src.name }).slice(0, 60) : "" })));
       };
       function shift(delta) {
         const i = store.presets.findIndex((x) => x.id === store.current), j = i + delta;
