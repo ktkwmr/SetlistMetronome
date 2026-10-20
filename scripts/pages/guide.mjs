@@ -54,7 +54,7 @@ export default {
 </figure>
 <ol>
   <li><b>Setlist</b> – Your songs in the order you play them, with the tempo, time signature, rhythm, and sound of each. Tap a song to switch to it.</li>
-  <li><b>List buttons</b> – Add a song after the selected one, duplicate it, move it up or down, or delete it (tap Delete twice to confirm).</li>
+  <li><b>List buttons</b> – Add a song after the selected one, duplicate it, move it up or down, or delete it.</li>
   <li><b>Song title</b> – The number shows where the song is in the setlist. Type the song title here. A new song starts with an empty title, and the box shows “Enter the song title”.</li>
   <li><b>← Prev / Next → / + Add song</b> – Move through the list, or add a song, without leaving the metronome.</li>
   <li><b>Tempo</b> – The BPM, with −5, −1, +1, and +5 buttons. Under it: the note that gets the beat and the tempo marking (such as Allegro).</li>
@@ -160,7 +160,7 @@ export default {
 </figure>
 <ol>
   <li><b>セットリスト</b> – 演奏する順の曲の一覧です。各曲のテンポ・拍子・ビート・音色も表示します。曲を押すと、その設定に切り替わります。</li>
-  <li><b>リストのボタン</b> – 選択中の曲の後ろに曲を追加、複製、上下の移動、削除（2 回押して確定）ができます。</li>
+  <li><b>リストのボタン</b> – 選択中の曲の後ろに曲を追加、複製、上下の移動、削除ができます。</li>
   <li><b>曲名</b> – 番号はセットリストの何曲目かを示します。ここに曲名を入力します。追加したばかりの曲は空欄で、「曲名を入力」と表示されます。</li>
   <li><b>← 前／次 →／＋ 曲の追加</b> – メトロノームの画面のまま、曲を移ったり追加したりできます。</li>
   <li><b>テンポ</b> – BPM と、−5・−1・+1・+5 のボタン。下に拍の音符とテンポ記号（Allegro など）が出ます。</li>
