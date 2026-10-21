@@ -17,7 +17,7 @@
 - 運営者: ktkwmr / 問い合わせ: GitHub Issues
 - Cloudflare Web Analytics token: `5c53079cb9a64d819d1ca53e8533ca63`（ChordTransposer・GuitarChordFinder と同じサイト）
 - ホスティング: Cloudflare Workers 静的アセット。ドメインの 3 つ目のアプリなので、別 Worker に Route `ktkwmr.com/setlistmetronome*` だけを割り当てる（ベースライン §0 の A）。
-  ドメイン直下（`/`、`robots.txt`、ルートの `sitemap.xml`、`_redirects`、ルートの 404）は ChordTransposer の Worker にある。このアプリの sitemap は `/setlistmetronome/sitemap.xml`。
+  ドメイン直下（`/` のトップページ＝アプリ一覧、`robots.txt`、ルートの `sitemap.xml`、`_redirects`、ルートの 404）は ChordTransposer の Worker にある。このアプリの sitemap は `/setlistmetronome/sitemap.xml`。
   ベースライン §0 の A では「アプリが 3 つ以上になったら、ドメイン直下だけを持つ小さなリポジトリに分ける」とされている（未対応・要判断）。
 
 ## ルール
@@ -27,5 +27,6 @@
 - 記事の表は手で書かず `scripts/pages/metronome.mjs` で計算する。ここのテンポ記号・拍子・ビートの規則はアプリ（`index.html` の `tempoTerm`・`isCompound`・`defaultAccents`・`SUBS`）と同じでなければならず、`scripts/check-metronome.mjs`（`build-pages.mjs` が読み込む）が違いを見つけるとビルドが止まる。アプリ側を変えたら `metronome.mjs` と記事の本文も直す。
 - 記事を追加・変更したら、PR のプレビューで人間が内容を確認してからマージする（ベースライン §10-7）。確認してほしい点を `docs/article-review.md` に書き、PR 本文にも載せる。見た目を変えたら `node scripts/render-guide-images.mjs` で画面写真を撮り直す。
 - 外部ホストを足したら `public/_headers` の CSP と、プライバシーの説明（`scripts/pages/privacy.mjs`、アプリ内の `privacy.body`、README）を同じ PR で直す。
+- トップページ（https://ktkwmr.com/）のアプリ一覧に、このアプリの名前・説明・特徴・ガイド記事の一覧を載せている（ChordTransposer の `scripts/pages/home.mjs` の `APPS`。アイコンは `ICON`）。ガイド記事を追加・改名・削除したとき、アプリ名・説明・アイコンを変えたときは、`ktkwmr/ChordTransposer` に `home.mjs` を直す PR を別に出す（ベースライン §2-16）。
 - 作業はブランチ → PR → Cloudflare のプレビュービルド確認 → squash マージ。
 - 本番サイト・Cloudflare 管理画面・外部 CDN にはこの環境から届かないことが多い。確かめられなかったことは「未確認」と書き、ユーザーに確認手順を伝える。
