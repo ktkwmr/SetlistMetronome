@@ -69,7 +69,7 @@ CLAUDE.md                       # instructions for Claude Code
 docs/baseline-status.md         # status of the shared web app baseline items
 ```
 
-This is the third app on `ktkwmr.com`. Its Worker only serves `/setlistmetronome/*`; the domain root (`/`, `robots.txt`, the root `sitemap.xml`, and 404 for other paths) belongs to the [Chord Transposer](https://github.com/ktkwmr/ChordTransposer) Worker.
+This is the third app on `ktkwmr.com`. Its Worker only serves `/setlistmetronome/*`; the domain root (`/`, `robots.txt`, the root `sitemap.xml`, and 404 for other paths) belongs to the `ktkwmr-home` Worker ([ktkwmr/ktkwmr.com](https://github.com/ktkwmr/ktkwmr.com)), so this app does not depend on any other app.
 `ktkwmr.com` の 3 つ目のアプリです。この Worker は `/setlistmetronome/*` だけを配信し、ドメイン直下（`/`、`robots.txt`、ルートの `sitemap.xml`、その他のパスの 404）は Chord Transposer の Worker が持っています。
 
 When you load a script or data from a new external host, add it to the `Content-Security-Policy` in `public/_headers`, or the browser will block it. Also update the privacy text (see below).

@@ -28,7 +28,7 @@
 | # | 項目 | 状態 | メモ |
 |---|---|---|---|
 | 2-1 | wrangler.jsonc | ✅ | `routes`・`workers_dev: false`・`preview_urls: true`・`previews: {}` |
-| 2-2 | `/` → `/<slug>/` の転送 | — | ドメイン直下は ChordTransposer 側 |
+| 2-2 | `/` → `/<slug>/` の転送 | — | ドメイン直下は `ktkwmr/ktkwmr.com`（2026-10-24 に ChordTransposer から分離） |
 | 2-3 | 404.html | ✅ | `/setlistmetronome/` 以下の不明な URL で 404 を確認（`wrangler dev`） |
 | 2-4 | .gitignore | ✅ | |
 | 2-5 | .gitattributes（LF） | ✅ | |
@@ -40,7 +40,7 @@
 | 2-11 | Cloudflare に接続・ルート設定 | ✅ | 2026-10-20 に接続して初回デプロイ（手動）。本番で全ページ 200、不明 URL は 404、CSP ヘッダーあり、ChordTransposer・GuitarChordFinder とドメイン直下に影響なしを確認 |
 | 2-12 | キャッシュ | ✅ | |
 | 2-13 | 自動デプロイの確認 | ✅ | 2026-10-20、#1 のマージで `main` のコミットに「Workers Builds: setlistmetronome」が付いて成功し、本番に反映されることを確認 |
-| 2-14 | 同じドメインの 2 つ目以降のアプリ | ✅ | ChordTransposer の `robots.txt` に Sitemap 行を追加済み（ktkwmr/ChordTransposer#20）。§0 の A「3 つ以上ならドメイン直下を別リポジトリに」はトップページを作る形で進める予定（別セッション） |
+| 2-14 | 同じドメインの 2 つ目以降のアプリ | ✅ | Sitemap 行は ChordTransposer の `robots.txt` に追加（ChordTransposer #20）。2026-10-24 から `ktkwmr/ktkwmr.com` の `robots.txt` に記載。§0 の A「ドメイン直下を別リポジトリに」は 2026-10-24 に対応（`ktkwmr/ktkwmr.com`） |
 
 ## 3. PWA
 
@@ -75,7 +75,7 @@
 | 5-3 | OGP | ✅ | |
 | 5-4 | og-image.png | ✅ | `scripts/og-image.html` |
 | 5-5 | JSON-LD | ✅ | |
-| 5-6 | robots.txt / sitemap.xml | ✅ | sitemap は `/setlistmetronome/sitemap.xml` に生成。ChordTransposer の `robots.txt` に Sitemap 行を追加済み（#20） |
+| 5-6 | robots.txt / sitemap.xml | ✅ | sitemap は `/setlistmetronome/sitemap.xml` に生成。Sitemap 行は ChordTransposer の `robots.txt` に追加（ChordTransposer #20）。2026-10-24 から `ktkwmr/ktkwmr.com` の `robots.txt` に記載 |
 | 5-7 | `<h1>` | ✅ | ツールバーのアプリ名 |
 | 5-8 | 画面に見える説明文 | ✅ | 冒頭の説明（無料・登録不要・オフライン） |
 | 5-9 | リダイレクト | ✅ | |
