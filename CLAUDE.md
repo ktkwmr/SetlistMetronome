@@ -24,6 +24,7 @@
 - 画面の文言は `index.html` の `I18N`（en / ja）に書き、要素には `data-i18n` / `data-i18n-html` / `data-i18n-attr` を付ける（`build-ja.mjs` が日本語ページの本文を置き換える）。JS で作る文言は `t()` を使う。子要素を持つ要素に `data-i18n` は付けない（`build-ja.mjs` が止まる）。
 - セットリストは `localStorage` の `setlistmetronome-state` に保存する。読み込んだ値は `sanitize()` で検証してから使う。保存形式を変えるときは古い形式も読めるようにする。
 - 記事の表は手で書かず `scripts/pages/metronome.mjs` で計算する。ここのテンポ記号・拍子・ビートの規則はアプリ（`index.html` の `tempoTerm`・`isCompound`・`defaultAccents`・`SUBS`）と同じでなければならず、`scripts/check-metronome.mjs`（`build-pages.mjs` が読み込む）が違いを見つけるとビルドが止まる。アプリ側を変えたら `metronome.mjs` と記事の本文も直す。
+- アプリの下のフッター（`index.html` の `foot.guides`、英日）に記事の一覧を手で書いている（このアプリはアプリの下の説明に記事の一覧がないため。ベースライン §9-14）。記事を追加・改名・削除したら、ここも直す。
 - 記事を追加・変更したら、PR のプレビューで人間が内容を確認してからマージする（ベースライン §10-7）。確認してほしい点を `docs/article-review.md` に書き、PR 本文にも載せる。見た目を変えたら `node scripts/render-guide-images.mjs` で画面写真を撮り直す。
 - 外部ホストを足したら `public/_headers` の CSP と、プライバシーの説明（`scripts/pages/privacy.mjs`、アプリ内の `privacy.body`、README）を同じ PR で直す。
 - トップページ（https://ktkwmr.com/）のアプリ一覧に、このアプリの名前・説明・特徴・ガイド記事の一覧を載せている（`ktkwmr/ktkwmr.com` の `scripts/pages/home.mjs` の `APPS`。アイコンは `ICON`。`public/robots.txt` の `Sitemap:` 行も）。ガイド記事を追加・改名・削除したとき、アプリ名・説明・アイコンを変えたときは、`ktkwmr/ktkwmr.com` に `home.mjs` を直す PR を別に出す（ベースライン §2-16）。
