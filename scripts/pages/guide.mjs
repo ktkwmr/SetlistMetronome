@@ -64,7 +64,7 @@ export default {
   <li><b>Rhythm</b> – 4 beat, 8ths, 16ths, triplets, shuffle, or 16th shuffle.</li>
   <li><b>Sound</b> – Click, woodblock, beep, cowbell, or drums.</li>
   <li><b>Volume</b> – The overall volume, and the volume of the notes between the beats.</li>
-  <li><b>⚙ Settings</b> – How to use, these guides, privacy, and about.</li>
+  <li><b>⚙ Settings</b> – How to use, these guides, privacy, about, and More apps (other free tools by the same author) (the guides and More apps open in a new tab, so your work stays as it is).</li>
 </ol>
 
 <h2 id="tempo">Setting the tempo</h2>
@@ -170,7 +170,7 @@ export default {
   <li><b>ビート</b> – 4ビート・8ビート・16ビート・3連符・シャッフル・16シャッフル。</li>
   <li><b>音色</b> – クリック・ウッドブロック・電子音・カウベル・ドラム。</li>
   <li><b>音量</b> – 全体の音量と、拍の間の細かい音の音量。</li>
-  <li><b>⚙ 設定</b> – 使い方・ガイド・プライバシー・このアプリについて。</li>
+  <li><b>⚙ 設定</b> – 使い方・ガイド・プライバシー・このアプリについて・ほかのアプリ（同じ作者の無料ツール）（ガイドとほかのアプリは新しいタブで開くので、作業中の内容はそのまま残ります）。</li>
 </ol>
 
 <h2 id="tempo">テンポの設定</h2>
