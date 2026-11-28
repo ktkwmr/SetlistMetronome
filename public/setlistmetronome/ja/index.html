@@ -254,6 +254,9 @@
     @media (hover: hover) { .related a:hover { border-color: var(--ink); background: var(--hover-fill); } }
     @media (prefers-reduced-motion: reduce) { .related a { transition: none; } .related a:active { transform: none; } }
 </style>
+  <!-- Usage analytics: Cloudflare Zaraz → Google Analytics 4, only after consent (see usage-events.js) -->
+  <script src="/cdn-cgi/zaraz/i.js" referrerpolicy="origin"></script>
+  <script src="/setlistmetronome/usage-events.js"></script>
 </head>
 <body>
   <header class="topbar">
@@ -380,6 +383,7 @@
       <p class="meta" data-i18n-html="foot.meta"><span>Setlist Metronome · © 2026 ktkwmr</span>
 <a href="/setlistmetronome/ja/privacy/" target="_blank" rel="noopener">プライバシーポリシー</a>
 <a href="/setlistmetronome/ja/about/" target="_blank" rel="noopener">運営者情報</a>
+<a href="#" class="cookie-settings">Cookie の設定</a>
 <a href="https://github.com/ktkwmr/SetlistMetronome" target="_blank" rel="noopener">GitHub のソースコード</a>
 <a href="https://github.com/ktkwmr/SetlistMetronome/issues" target="_blank" rel="noopener">ご意見・ご質問</a>
 <a href="https://ktkwmr.com/ja/" target="_blank" rel="noopener">ktkwmr のほかのアプリ</a></p>
@@ -405,9 +409,10 @@
   <dialog class="msg help" id="privacyDlg" tabindex="-1" aria-labelledby="privacyTitle">
     <h2 id="privacyTitle" data-i18n="menu.privacy">プライバシー</h2>
     <div class="help-body">
-      <ul class="help-list" data-i18n-html="privacy.body"><li><b>すべて端末の中で動きます</b> – 音はブラウザの中だけで作ります。曲や設定がサーバーに送られることはありません。アカウント登録・Cookie・広告はありません。</li>
+      <ul class="help-list" data-i18n-html="privacy.body"><li><b>すべて端末の中で動きます</b> – 音はブラウザの中だけで作ります。曲や設定がサーバーに送られることはありません。アカウント登録・広告はありません。</li>
         <li><b>ブラウザに保存するデータ</b> – 次に開いたときにも使えるよう、セットリスト（曲名・テンポ・拍子・ビート・音色・アクセント・音量）をブラウザ内に保存します。オフラインで使えるよう、アプリ本体も保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>
         <li><b>サーバーのログと閲覧数</b> – 本サイトは Cloudflare で配信しています。運用とセキュリティのため、一般的なアクセスログ（IP アドレス・日時・アクセスしたページなど）が記録されます。Cloudflare Web Analytics で、Cookie を使わずにページの閲覧数（ページの URL・参照元・ブラウザの情報・表示速度）を集計しています。</li>
+        <li><b>同意した場合のみ Google アナリティクス</b> – Cookie のバナーで「すべて同意」を選んだ場合に限り、Google アナリティクス（Cloudflare Zaraz 経由。Cloudflare のサーバーから IP アドレスの末尾を削って送信）でアプリの使われ方（見たページと時間、押したボタンと変えた設定、テンポ・拍子・鳴らした時間）を記録します。曲名は送りません。選択はページ下の「Cookie の設定」から変えられます。</li>
         <li><b>お問い合わせ</b> – ご質問・ご意見は <a href="https://github.com/ktkwmr/SetlistMetronome/issues" target="_blank" rel="noopener">GitHub の Issues</a> へ。</li>
         <li><b>詳しくは</b> – <a href="/setlistmetronome/ja/privacy/" target="_blank" rel="noopener">プライバシーポリシー</a>と<a href="/setlistmetronome/ja/about/" target="_blank" rel="noopener">運営者情報</a>をご覧ください。</li></ul>
     </div>
@@ -512,13 +517,13 @@
           "rel.2.text": "Play the sheet music of your setlist songs",
           "rel.2.href": "/sheetmusicplayer/",
           "home.url": "https://ktkwmr.com/",
-          "foot.meta": "<span>Setlist Metronome · © 2026 ktkwmr</span>\n<a href=\"/setlistmetronome/privacy/\" target=\"_blank\" rel=\"noopener\">Privacy policy</a>\n<a href=\"/setlistmetronome/about/\" target=\"_blank\" rel=\"noopener\">About this site</a>\n<a href=\"https://github.com/ktkwmr/SetlistMetronome\" target=\"_blank\" rel=\"noopener\">Source code on GitHub</a>\n<a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">Feedback</a>\n<a href=\"https://ktkwmr.com/\" target=\"_blank\" rel=\"noopener\">More apps by ktkwmr</a>",
+          "foot.meta": "<span>Setlist Metronome · © 2026 ktkwmr</span>\n<a href=\"/setlistmetronome/privacy/\" target=\"_blank\" rel=\"noopener\">Privacy policy</a>\n<a href=\"/setlistmetronome/about/\" target=\"_blank\" rel=\"noopener\">About this site</a>\n<a href=\"#\" class=\"cookie-settings\">Cookie settings</a>\n<a href=\"https://github.com/ktkwmr/SetlistMetronome\" target=\"_blank\" rel=\"noopener\">Source code on GitHub</a>\n<a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">Feedback</a>\n<a href=\"https://ktkwmr.com/\" target=\"_blank\" rel=\"noopener\">More apps by ktkwmr</a>",
           "foot.guidesTitle": "Guides",
           "foot.guides": "<li><a href=\"/setlistmetronome/guide/\" target=\"_blank\" rel=\"noopener\">How to use (guide)</a></li>\n<li><a href=\"/setlistmetronome/tempo-markings/\" target=\"_blank\" rel=\"noopener\">Tempo markings and BPM</a></li>\n<li><a href=\"/setlistmetronome/time-signatures/\" target=\"_blank\" rel=\"noopener\">Time signatures explained</a></li>\n<li><a href=\"/setlistmetronome/shuffle-and-swing/\" target=\"_blank\" rel=\"noopener\">Shuffle and swing</a></li>\n<li><a href=\"/setlistmetronome/faq/\" target=\"_blank\" rel=\"noopener\">FAQ</a></li>",
           "guide.url": "/setlistmetronome/guide/",
           "help.more": "Read the full guide →",
           "help.body": "<li><b>Add songs</b> – Tap “+ Add song” and type the song title in the box at the top. Each song keeps its own settings.</li>\n        <li><b>Set the tempo</b> – Use −5 / −1 / +1 / +5, the slider, type the number, or tap “Tap” in time with the music.</li>\n        <li><b>Time signature</b> – Set the top and bottom numbers with − and +. BPM counts the bottom note value.</li>\n        <li><b>Rhythm and sound</b> – Choose 4 beat, 8ths, 16ths, triplets, or a shuffle, and a sound. Drums play a simple kick, snare, and hi-hat pattern.</li>\n        <li><b>Accents</b> – Tap a beat circle to switch it between accent, normal, and silent.</li>\n        <li><b>Practice the setlist</b> – Use “← Prev” and “Next →” to move to the next song. The metronome keeps playing at the new song's settings.</li>",
-          "privacy.body": "<li><b>Everything stays on your device</b> – The sound is made only in your browser. Your songs and settings are never sent to a server. This app has no accounts, cookies, or ads.</li>\n        <li><b>Data saved in your browser</b> – Your setlist (song titles, tempo, time signature, rhythm, sound, accents, and volume) is saved in your browser's storage so it is there next time. To work offline, the app is saved there too. You can delete them by clearing this site's data in your browser settings.</li>\n        <li><b>Server logs and page views</b> – This site is hosted on Cloudflare. Standard access logs (such as IP address, time, and the requested page) are kept for operation and security. Cloudflare Web Analytics counts page views without cookies (the page URL, referrer, browser information, and page load time).</li>\n        <li><b>Contact</b> – Questions and feedback: <a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">GitHub Issues</a>.</li>\n        <li><b>Full policy</b> – See the <a href=\"/setlistmetronome/privacy/\" target=\"_blank\" rel=\"noopener\">privacy policy</a> and <a href=\"/setlistmetronome/about/\" target=\"_blank\" rel=\"noopener\">about this site</a>.</li>",
+          "privacy.body": "<li><b>Everything stays on your device</b> – The sound is made only in your browser. Your songs and settings are never sent to a server. This app has no accounts or ads.</li>\n        <li><b>Data saved in your browser</b> – Your setlist (song titles, tempo, time signature, rhythm, sound, accents, and volume) is saved in your browser's storage so it is there next time. To work offline, the app is saved there too. You can delete them by clearing this site's data in your browser settings.</li>\n        <li><b>Server logs and page views</b> – This site is hosted on Cloudflare. Standard access logs (such as IP address, time, and the requested page) are kept for operation and security. Cloudflare Web Analytics counts page views without cookies (the page URL, referrer, browser information, and page load time).</li>\n        <li><b>Google Analytics, only if you agree</b> – Only if you choose “Accept all” in the cookie banner, Google Analytics (through Cloudflare Zaraz, sent from Cloudflare's servers with a shortened IP address) records how the app is used: pages viewed and for how long, buttons tapped and settings changed, and the tempo, time signature, and playing time. Song titles are never sent. Change your choice from “Cookie settings” at the bottom of the page.</li>\n        <li><b>Contact</b> – Questions and feedback: <a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">GitHub Issues</a>.</li>\n        <li><b>Full policy</b> – See the <a href=\"/setlistmetronome/privacy/\" target=\"_blank\" rel=\"noopener\">privacy policy</a> and <a href=\"/setlistmetronome/about/\" target=\"_blank\" rel=\"noopener\">about this site</a>.</li>",
           "about.license": "© 2026 ktkwmr · Licensed under the <a href=\"https://github.com/ktkwmr/SetlistMetronome/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">MIT License</a> · <a href=\"/setlistmetronome/about/\" target=\"_blank\" rel=\"noopener\">About this site</a>",
           "close": "Close",
           "loading": "Loading…",
@@ -598,13 +603,13 @@
           "rel.2.text": "セットリスト曲の楽譜を再生",
           "rel.2.href": "/sheetmusicplayer/ja/",
           "home.url": "https://ktkwmr.com/ja/",
-          "foot.meta": "<span>Setlist Metronome · © 2026 ktkwmr</span>\n<a href=\"/setlistmetronome/ja/privacy/\" target=\"_blank\" rel=\"noopener\">プライバシーポリシー</a>\n<a href=\"/setlistmetronome/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>\n<a href=\"https://github.com/ktkwmr/SetlistMetronome\" target=\"_blank\" rel=\"noopener\">GitHub のソースコード</a>\n<a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">ご意見・ご質問</a>\n<a href=\"https://ktkwmr.com/ja/\" target=\"_blank\" rel=\"noopener\">ktkwmr のほかのアプリ</a>",
+          "foot.meta": "<span>Setlist Metronome · © 2026 ktkwmr</span>\n<a href=\"/setlistmetronome/ja/privacy/\" target=\"_blank\" rel=\"noopener\">プライバシーポリシー</a>\n<a href=\"/setlistmetronome/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>\n<a href=\"#\" class=\"cookie-settings\">Cookie の設定</a>\n<a href=\"https://github.com/ktkwmr/SetlistMetronome\" target=\"_blank\" rel=\"noopener\">GitHub のソースコード</a>\n<a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">ご意見・ご質問</a>\n<a href=\"https://ktkwmr.com/ja/\" target=\"_blank\" rel=\"noopener\">ktkwmr のほかのアプリ</a>",
           "foot.guidesTitle": "ガイド",
           "foot.guides": "<li><a href=\"/setlistmetronome/ja/guide/\" target=\"_blank\" rel=\"noopener\">使い方ガイド</a></li>\n<li><a href=\"/setlistmetronome/ja/tempo-markings/\" target=\"_blank\" rel=\"noopener\">テンポ記号と BPM の目安</a></li>\n<li><a href=\"/setlistmetronome/ja/time-signatures/\" target=\"_blank\" rel=\"noopener\">拍子の基本</a></li>\n<li><a href=\"/setlistmetronome/ja/shuffle-and-swing/\" target=\"_blank\" rel=\"noopener\">シャッフルとハネのリズム</a></li>\n<li><a href=\"/setlistmetronome/ja/faq/\" target=\"_blank\" rel=\"noopener\">よくある質問</a></li>",
           "guide.url": "/setlistmetronome/ja/guide/",
           "help.more": "詳しい使い方ガイドを読む →",
           "help.body": "<li><b>曲を追加</b> – 「＋ 曲の追加」を押して、上の欄に曲名を入力します。曲ごとに設定が保存されます。</li>\n        <li><b>テンポ</b> – −5／−1／+1／+5、スライダー、数字の直接入力のほか、曲に合わせて「タップ」を押しても設定できます。</li>\n        <li><b>拍子</b> – 分子と分母をそれぞれ − と + で設定します。BPM は分母の音符 1 つあたりの数です。</li>\n        <li><b>ビートと音色</b> – 4ビート・8ビート・16ビート・3連符・シャッフルと、音色を選びます。ドラムはキック・スネア・ハイハットの簡単なパターンを鳴らします。</li>\n        <li><b>アクセント</b> – 拍の丸を押すと、強拍・普通・鳴らさないが切り替わります。</li>\n        <li><b>セットリストの練習</b> – 「← 前」「次 →」で曲を移ります。再生中なら、そのまま次の曲の設定で鳴り続けます。</li>",
-          "privacy.body": "<li><b>すべて端末の中で動きます</b> – 音はブラウザの中だけで作ります。曲や設定がサーバーに送られることはありません。アカウント登録・Cookie・広告はありません。</li>\n        <li><b>ブラウザに保存するデータ</b> – 次に開いたときにも使えるよう、セットリスト（曲名・テンポ・拍子・ビート・音色・アクセント・音量）をブラウザ内に保存します。オフラインで使えるよう、アプリ本体も保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>\n        <li><b>サーバーのログと閲覧数</b> – 本サイトは Cloudflare で配信しています。運用とセキュリティのため、一般的なアクセスログ（IP アドレス・日時・アクセスしたページなど）が記録されます。Cloudflare Web Analytics で、Cookie を使わずにページの閲覧数（ページの URL・参照元・ブラウザの情報・表示速度）を集計しています。</li>\n        <li><b>お問い合わせ</b> – ご質問・ご意見は <a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">GitHub の Issues</a> へ。</li>\n        <li><b>詳しくは</b> – <a href=\"/setlistmetronome/ja/privacy/\" target=\"_blank\" rel=\"noopener\">プライバシーポリシー</a>と<a href=\"/setlistmetronome/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>をご覧ください。</li>",
+          "privacy.body": "<li><b>すべて端末の中で動きます</b> – 音はブラウザの中だけで作ります。曲や設定がサーバーに送られることはありません。アカウント登録・広告はありません。</li>\n        <li><b>ブラウザに保存するデータ</b> – 次に開いたときにも使えるよう、セットリスト（曲名・テンポ・拍子・ビート・音色・アクセント・音量）をブラウザ内に保存します。オフラインで使えるよう、アプリ本体も保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>\n        <li><b>サーバーのログと閲覧数</b> – 本サイトは Cloudflare で配信しています。運用とセキュリティのため、一般的なアクセスログ（IP アドレス・日時・アクセスしたページなど）が記録されます。Cloudflare Web Analytics で、Cookie を使わずにページの閲覧数（ページの URL・参照元・ブラウザの情報・表示速度）を集計しています。</li>\n        <li><b>同意した場合のみ Google アナリティクス</b> – Cookie のバナーで「すべて同意」を選んだ場合に限り、Google アナリティクス（Cloudflare Zaraz 経由。Cloudflare のサーバーから IP アドレスの末尾を削って送信）でアプリの使われ方（見たページと時間、押したボタンと変えた設定、テンポ・拍子・鳴らした時間）を記録します。曲名は送りません。選択はページ下の「Cookie の設定」から変えられます。</li>\n        <li><b>お問い合わせ</b> – ご質問・ご意見は <a href=\"https://github.com/ktkwmr/SetlistMetronome/issues\" target=\"_blank\" rel=\"noopener\">GitHub の Issues</a> へ。</li>\n        <li><b>詳しくは</b> – <a href=\"/setlistmetronome/ja/privacy/\" target=\"_blank\" rel=\"noopener\">プライバシーポリシー</a>と<a href=\"/setlistmetronome/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>をご覧ください。</li>",
           "about.license": "© 2026 ktkwmr · <a href=\"https://github.com/ktkwmr/SetlistMetronome/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">MIT ライセンス</a> · <a href=\"/setlistmetronome/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>",
           "close": "閉じる",
           "loading": "読み込み中…",
@@ -800,7 +805,14 @@
       function requestWake() {
         try { if (navigator.wakeLock) navigator.wakeLock.request("screen").then((w) => { wake = w; }).catch(() => {}); } catch (e) {}
       }
+      // 利用状況の計測（usage-events.js、同意した人だけ GA4 へ）。曲名は送らない
+      function track(name, params) { try { if (window.usage) window.usage.track(name, params); } catch (e) {} }
+      function playing_(on) { try { if (window.usage) window.usage.playing(on); } catch (e) {} }
+      let startedAt = 0;
       function start() {
+        const p = cur();
+        track("play", { bpm: p.bpm, meter: p.num + "/" + p.den, sub: p.sub, sound: p.sound, songs: store.presets.length });
+        startedAt = performance.now(); playing_(true);
         ensureCtx(); master.gain.value = cur().vol;
         playing = true; beatPos = 0; visQ = []; nextBeat = ctx.currentTime + 0.08;
         tick();
@@ -812,6 +824,7 @@
         renderPlay();
       }
       function stop() {
+        if (playing) { track("stop", { seconds: Math.round((performance.now() - startedAt) / 1000) }); playing_(false); }
         playing = false; visQ = [];
         if (worker) worker.postMessage("stop");
         clearInterval(intervalId);
@@ -843,9 +856,12 @@
 
       // ---------- UI ----------
       const $ = (id) => document.getElementById(id);
-      function chip(label, pressed, on) {
+      // trackName: タップの計測での名前（usage-events.js が data-track を使う）
+      function chip(label, pressed, on, trackName) {
         const b = document.createElement("button"); b.type = "button"; b.className = "chip";
-        b.textContent = label; b.setAttribute("aria-pressed", pressed); b.onclick = on; return b;
+        b.textContent = label; b.setAttribute("aria-pressed", pressed); b.onclick = on;
+        if (trackName) b.dataset.track = trackName;
+        return b;
       }
       const metaText = (p) => `${p.bpm} · ${p.num}/${p.den} · ${t("sub." + p.sub)} · ${t("snd." + p.sound)}`;
 
@@ -899,11 +915,11 @@
         $("numDown").disabled = p.num <= 1; $("numUp").disabled = p.num >= 15;
         $("denDown").disabled = di <= 0; $("denUp").disabled = di >= DENS.length - 1;
         const s = $("subs"); s.innerHTML = "";
-        SUBS.forEach((x) => s.appendChild(chip(t("sub." + x.id), p.sub === x.id, () => edit((q) => { q.sub = x.id; }, ["settings", "beats", "list"]))));
+        SUBS.forEach((x) => s.appendChild(chip(t("sub." + x.id), p.sub === x.id, () => edit((q) => { q.sub = x.id; }, ["settings", "beats", "list"]), "sub:" + x.id)));
         $("swingGroup").hidden = !(SUBS.find((x) => x.id === p.sub) || {}).swing;
         $("swing").value = Math.round(p.swing * 100); $("swingVal").textContent = Math.round(p.swing * 100) + "%";
         const so = $("sounds"); so.innerHTML = "";
-        SOUNDS.forEach((id) => so.appendChild(chip(t("snd." + id), p.sound === id, () => { edit((q) => { q.sound = id; }, ["settings", "list"]); if (!playing) preview(); })));
+        SOUNDS.forEach((id) => so.appendChild(chip(t("snd." + id), p.sound === id, () => { edit((q) => { q.sound = id; }, ["settings", "list"]); if (!playing) preview(); }, "sound:" + id)));
         $("soundHint").textContent = t("snd." + p.sound + ".hint");
         $("vol").value = Math.round(p.vol * 100); $("volVal").textContent = Math.round(p.vol * 100) + "%";
         $("subVol").value = Math.round(p.subVol * 100); $("subVolVal").textContent = Math.round(p.subVol * 100) + "%";

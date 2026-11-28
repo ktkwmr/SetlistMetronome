@@ -26,6 +26,7 @@
 - 記事の表は手で書かず `scripts/pages/metronome.mjs` で計算する。ここのテンポ記号・拍子・ビートの規則はアプリ（`index.html` の `tempoTerm`・`isCompound`・`defaultAccents`・`SUBS`）と同じでなければならず、`scripts/check-metronome.mjs`（`build-pages.mjs` が読み込む）が違いを見つけるとビルドが止まる。アプリ側を変えたら `metronome.mjs` と記事の本文も直す。
 - アプリの下のフッター（`index.html` の `foot.guides`、英日）に記事の一覧を手で書いている（このアプリはアプリの下の説明に記事の一覧がないため。ベースライン §9-14）。記事を追加・改名・削除したら、ここも直す。
 - 記事を追加・変更したら、PR のプレビューで人間が内容を確認してからマージする（ベースライン §10-7）。確認してほしい点を `docs/article-review.md` に書き、PR 本文にも載せる。見た目を変えたら `node scripts/render-guide-images.mjs` で画面写真を撮り直す。
+- 利用状況の計測（Cloudflare Zaraz → GA4、同意バナーで同意した人だけ。ベースライン §17）: `usage-events.js`（ベースラインの雛形のコピー。タップ `slm_tap`・設定の変更 `slm_change`・滞在時間 `slm_engaged`）と、主な機能の `track()`（`index.html` の `start()`・`stop()`。チップには `data-track`（`sub:<id>`・`sound:<id>`））。曲名（`nameInput`）は送らない（文字の入力欄は usage-events.js が送らない）。イベントを足したら `docs/analytics.md` の表と GA4 のカスタム定義、送る内容を変えたらプライバシーの説明も直す。
 - 外部ホストを足したら `public/_headers` の CSP と、プライバシーの説明（`scripts/pages/privacy.mjs`、アプリ内の `privacy.body`、README）を同じ PR で直す。
 - トップページ（https://ktkwmr.com/）のアプリ一覧に、このアプリの名前・説明・特徴・ガイド記事の一覧を載せている（`ktkwmr/ktkwmr.com` の `scripts/pages/home.mjs` の `APPS`。アイコンは `ICON`。`public/robots.txt` の `Sitemap:` 行も）。ガイド記事を追加・改名・削除したとき、アプリ名・説明・アイコンを変えたときは、`ktkwmr/ktkwmr.com` に `home.mjs` を直す PR を別に出す（ベースライン §2-16）。
 - 作業はブランチ → PR → Cloudflare のプレビュービルド確認 → squash マージ。

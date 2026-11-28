@@ -2,7 +2,7 @@
 // Older caches of this app (e.g. "setlistmetronome-<build>") are removed on activate.
 const PREFIX = "setlistmetronome-";
 const CACHE = PREFIX + "cache";
-const CORE = ["./", "index.html", "timer.js", "ja/", "manifest.json", "THIRD_PARTY_LICENSES.md"];
+const CORE = ["./", "index.html", "timer.js", "ja/", "manifest.json", "THIRD_PARTY_LICENSES.md", "usage-events.js"];
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
@@ -33,6 +33,9 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET" || new URL(req.url).origin !== self.location.origin) return;
+  // Cloudflare Zaraz (/cdn-cgi/zaraz/…, analytics): always from the network, never cached. Its script is made
+  // for each request, and it is not needed offline
+  if (new URL(req.url).pathname.startsWith("/cdn-cgi/")) return;
   event.respondWith(
     fetch(new Request(req.url, { cache: "no-cache" }))
       .then((res) => {
