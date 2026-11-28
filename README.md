@@ -28,10 +28,12 @@ A metronome that remembers each song. Save the tempo (BPM), time signature, rhyt
 - The sound is made only in your browser, and your songs are saved only in your browser. Nothing you enter is sent to a server. The app has no accounts, cookies, ads, or third-party libraries.
 - Your setlist (song titles, tempo, time signature, rhythm, sound, accents, and volume) and, for offline use, the app itself are saved in your browser's storage. Clear this site's data to remove them.
 - The site is hosted on Cloudflare, which keeps standard access logs (IP address, time, requested page) for operation and security. Page views are counted with Cloudflare Web Analytics, which uses no cookies.
+- Only if you choose “Accept all” in the cookie banner, Google Analytics (through Cloudflare Zaraz, sent from Cloudflare's servers with a shortened IP address) records how the app is used: pages viewed and for how long, buttons tapped and settings changed, and the tempo, time signature, and playing time. Song titles are never sent. Change your choice from “Cookie settings” at the bottom of the page. See [docs/analytics.md](docs/analytics.md).
 
-- 音はブラウザ内で作り、セットリストもブラウザ内だけに保存します。入力した内容はサーバーに送信されません。アカウント登録・Cookie・広告・外部ライブラリはありません。
+- 音はブラウザ内で作り、セットリストもブラウザ内だけに保存します。入力した内容はサーバーに送信されません。アカウント登録・広告・外部ライブラリはありません。
 - セットリスト（曲名・テンポ・拍子・ビート・音色・アクセント・音量）と、オフラインで使うためのアプリ本体をブラウザ内に保存します。サイトデータを削除すると消えます。
 - サイトは Cloudflare で配信しており、運用・セキュリティのために標準的なアクセスログ（IP アドレス、日時、アクセスしたページ）が記録されます。閲覧数は Cookie を使わない Cloudflare Web Analytics で集計しています。
+- Cookie のバナーで「すべて同意」を選んだ場合に限り、Google アナリティクス（Cloudflare Zaraz 経由。Cloudflare のサーバーから IP アドレスの末尾を削って送信）でアプリの使われ方（見たページと時間、押したボタンと変えた設定、テンポ・拍子・鳴らした時間）を記録します。曲名は送りません。選択はページ下の「Cookie の設定」から変えられます。
 
 The same notice is shown in the app under ⚙ → **Privacy**. The full privacy policy is at `/setlistmetronome/privacy/` (Japanese: `/setlistmetronome/ja/privacy/`), and the operator information is at `/setlistmetronome/about/`.
 アプリ内の ⚙ → **プライバシー** でも同じ内容を表示しています。プライバシーポリシーは `/setlistmetronome/ja/privacy/`、運営者情報は `/setlistmetronome/ja/about/` にあります。
